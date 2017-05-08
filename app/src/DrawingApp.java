@@ -12,6 +12,7 @@ public class DrawingApp extends Frame {
         this.setSize(800, 600);
 
         addMainMenu();
+    private int x, y, x2, y2;
 
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -26,6 +27,7 @@ public class DrawingApp extends Frame {
         addButtons(toolBar);
         toolBar.setFloatable(false);
         add(toolBar, BorderLayout.PAGE_START);
+        x = y = x2 = y2 = 0;
 
     }
 
@@ -81,6 +83,19 @@ public class DrawingApp extends Frame {
             menuBar.add(mnuAbout);
 
         if(null == this.getMenuBar()) this.setMenuBar(menuBar);
+    public void setStartPoint(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void setEndPoint(int x, int y) {
+        x2 = (x);
+        y2 = (y);
+    }
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(Color.RED);
+        drawPerfectRect(g, x, y, x2, y2);
     }
 
 }
