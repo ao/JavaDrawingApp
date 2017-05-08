@@ -37,8 +37,12 @@ public class DrawingApp extends Frame {
         app.addMainMenu();
         app.addToolbar();
     }
+    public DrawingApp() {
         x = y = x2 = y2 = 0;
 
+        MyMouseListener listener = new MyMouseListener(this);
+        addMouseListener(listener);
+        addMouseMotionListener(listener);
     }
 
     protected void addButtons(JToolBar toolBar) {
