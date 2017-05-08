@@ -82,12 +82,6 @@ public class DrawingApp extends JPanel {
             mnuFile.add(new MenuItem("Exit")).addActionListener(new MenuBarGeneralHandler());
             menuBar.add(mnuFile);
 
-        Menu mnuShapes = new Menu("Shapes");
-            mnuShapes.add(new MenuItem("Rectangle")).addActionListener(new MenuBarGeneralHandler());
-            mnuShapes.add(new MenuItem("Circle")).addActionListener(new MenuBarGeneralHandler());
-            mnuShapes.add(new MenuItem("Triangle")).addActionListener(new MenuBarGeneralHandler());
-            menuBar.add(mnuShapes);
-
         Menu mnuAbout = new Menu("About");
             mnuAbout.add(new MenuItem("About")).addActionListener(new MenuBarGeneralHandler());
             menuBar.add(mnuAbout);

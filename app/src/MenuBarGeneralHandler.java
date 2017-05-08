@@ -9,13 +9,6 @@ class MenuBarGeneralHandler extends WindowAdapter implements ActionListener {
             JOptionPane.showMessageDialog(null, "Java Drawing App", "About", JOptionPane.PLAIN_MESSAGE);
         } else {
             //e.getActionCommand()
-            if (e.getActionCommand().equals("Rectangle")) {
-                //
-            } else if (e.getActionCommand().equals("Circle")) {
-                //
-            } else if (e.getActionCommand().equals("Triangle")) {
-                //
-            }
         }
     }
 }
