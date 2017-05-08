@@ -13,11 +13,15 @@ class MyMouseListener extends MouseAdapter {
         parentApp.setStartPoint(e.getX(), e.getY());
         System.out.println("mousePressed: "+e.getX()+"-"+e.getY());
     }
+//    public void mouseClicked(MouseEvent e) {
+////        parentApp.setStartPoint(e.getX(), e.getY());
+//        System.out.println("mouseClicked: "+e.getX()+"-"+e.getY());
+//    }
 
     public void mouseDragged(MouseEvent e) {
         parentApp.setEndPoint(e.getX(), e.getY());
         parentApp.repaint();
-        System.out.println("mouseDragged: "+e.getX()+"-"+e.getY());
+//        System.out.println("mouseDragged: "+e.getX()+"-"+e.getY());
     }
 
     public void mouseReleased(MouseEvent e) {

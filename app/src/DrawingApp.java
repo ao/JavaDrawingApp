@@ -4,11 +4,14 @@ import java.awt.*;
 import java.awt.Graphics;
 
 import java.awt.event.*;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class DrawingApp extends JPanel {
 
-    private int x, y, x2, y2;
-    private JFrame mainFrame;
+    public int x, y, x2, y2;
+    public JFrame mainFrame;
+    public ArrayList<Shape> shapes = new ArrayList<Shape>();
 
     public static void main(String[] args) {
         DrawingApp app = new DrawingApp();
@@ -29,14 +32,40 @@ public class DrawingApp extends JPanel {
         app.addToolbar();
 
         app.mainFrame.setVisible(true);
+
+//        MyMouseListener listener = new MyMouseListener(app);
+//        app.mainFrame.addMouseListener(listener);
+//        app.mainFrame.addMouseMotionListener(listener);
+
+        app.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                app.x = e.getX();
+                app.y = e.getY();
+                app.repaint();
+            }
+
+            public void mouseReleased(MouseEvent e) {
+                app.x2 = e.getX();
+                app.y2 = e.getY();
+                app.repaint();
+
+                Shape r = app.makeRectangle(app.x, app.y, app.x2, app.y2);
+                app.shapes.add(r);
+                app.repaint();
+            }
+        });
+
+//        app.addMouseMotionListener(new MouseMotionAdapter() {
+//            public void mouseDragged(MouseEvent e) {
+//                app.x2 = e.getX();
+//                app.y2 = e.getY();
+//                app.repaint();
+//            }
+//        });
     }
 
     public DrawingApp() {
         x = y = x2 = y2 = 0;
-
-        MyMouseListener listener = new MyMouseListener(this);
-        addMouseListener(listener);
-        addMouseMotionListener(listener);
     }
 
     private void addToolbar() {
@@ -100,19 +129,21 @@ public class DrawingApp extends JPanel {
     }
 
 
+    public void paint(Graphics g) {
+        System.out.println("OH HI");
+    }
 
-    public void drawPerfectRect(Graphics g, int x, int y, int x2, int y2) {
+
+    public void drawRect(Graphics g, int x, int y, int x2, int y2) {
         int px = Math.min(x,x2);
         int py = Math.min(y,y2);
         int pw=Math.abs(x-x2);
         int ph=Math.abs(y-y2);
         g.drawRect(px, py, pw, ph);
     }
-
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(Color.RED);
-        drawPerfectRect(g, x, y, x2, y2);
+    
+    private Rectangle2D.Float makeRectangle(int x1, int y1, int x2, int y2) {
+        return new Rectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
     }
 
 }
