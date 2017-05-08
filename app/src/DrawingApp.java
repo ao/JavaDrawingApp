@@ -15,33 +15,32 @@ public class DrawingApp extends Frame {
                 System.exit(0);
             }
         });
+
+        addMainMenu();
     }
 
     public static void main(String[] args) {
         DrawingApp app = new DrawingApp();
-        app.addMainMenu();
     }
 
     private void addMainMenu() {
         MenuBar menuBar = new MenuBar();
 
-        Menu file = new Menu("File");
-        Menu shape = new Menu("Shapes");
-        Menu about = new Menu("About");
+        Menu mnuFile = new Menu("File");
+            mnuFile.add(new MenuItem("Exit")).addActionListener(new GeneralHandler());
+            menuBar.add(mnuFile);
 
-        file.add(new MenuItem("Exit"));
+        Menu mnuShapes = new Menu("Shapes");
+            mnuShapes.add(new MenuItem("Rectangle")).addActionListener(new GeneralHandler());
+            mnuShapes.add(new MenuItem("Circle")).addActionListener(new GeneralHandler());
+            mnuShapes.add(new MenuItem("Triangle")).addActionListener(new GeneralHandler());
+            menuBar.add(mnuShapes);
 
-        shape.add(new MenuItem("Rectangle"));
-        shape.add(new MenuItem("Circle"));
-        shape.add(new MenuItem("Triangle"));
-
-
-        about.add(new MenuItem("About"));
-
-        menuBar.add(file);
-        menuBar.add(shape);
-        menuBar.add(about);
+        Menu mnuAbout = new Menu("About");
+            mnuAbout.add(new MenuItem("About")).addActionListener(new GeneralHandler());
+            menuBar.add(mnuAbout);
 
         if(null == this.getMenuBar()) this.setMenuBar(menuBar);
     }
+
 }
