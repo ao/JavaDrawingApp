@@ -16,17 +16,27 @@ public class DrawingApp extends Frame {
 
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+    public static void main(String[] args) {
+        DrawingApp app = new DrawingApp();
+        app.mainFrame = new JFrame("Java Drawing App");
+        app.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        app.mainFrame.setContentPane(new DrawRect("RED"));
+        app.mainFrame.setSize(300, 300);
+        app.mainFrame.setVisible(true);
 
-        this.addWindowListener(new WindowAdapter() {
+        app.mainFrame.setSize(800, 600);
+
+        app.mainFrame.setLocationRelativeTo(null);
+
+        app.mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent){
                 System.exit(0);
             }
         });
 
-        JToolBar toolBar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
-        addButtons(toolBar);
-        toolBar.setFloatable(false);
-        add(toolBar, BorderLayout.PAGE_START);
+        app.addMainMenu();
+        app.addToolbar();
+    }
         x = y = x2 = y2 = 0;
 
     }
