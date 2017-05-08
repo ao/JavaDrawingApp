@@ -1,21 +1,15 @@
 import javax.swing.*;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.Graphics;
 
-public class DrawingApp extends Frame {
+import java.awt.event.*;
 
-    public DrawingApp() {
-        super("Java Drawing App");
-        this.setSize(800, 600);
+public class DrawingApp extends JPanel {
 
-        addMainMenu();
     private int x, y, x2, y2;
+    private JFrame mainFrame;
 
-        this.setVisible(true);
-        this.setLocationRelativeTo(null);
     public static void main(String[] args) {
         DrawingApp app = new DrawingApp();
         app.mainFrame = new JFrame("Java Drawing App");
@@ -37,6 +31,7 @@ public class DrawingApp extends Frame {
         app.addMainMenu();
         app.addToolbar();
     }
+
     public DrawingApp() {
         x = y = x2 = y2 = 0;
 
@@ -45,10 +40,16 @@ public class DrawingApp extends Frame {
         addMouseMotionListener(listener);
     }
 
-    protected void addButtons(JToolBar toolBar) {
-        JButton btnRectangle = null;
-        JButton btnCircle = null;
-        JButton btnTriangle = null;
+    private void addToolbar() {
+        JToolBar toolBar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
+        addToolbarButtons(toolBar);
+        toolBar.setFloatable(false);
+        mainFrame.add(toolBar, BorderLayout.PAGE_START);
+    }
+    protected void addToolbarButtons(JToolBar toolBar) {
+        JButton btnRectangle;
+        JButton btnCircle;
+        JButton btnTriangle;
 
         btnRectangle = makeSidenavBar("Rectangle");
         btnRectangle.addActionListener(new SideBarGeneralHandler());
@@ -63,7 +64,7 @@ public class DrawingApp extends Frame {
         toolBar.add(btnTriangle);
     }
 
-    protected JButton makeSidenavBar(String altText) {
+    private JButton makeSidenavBar(String altText) {
         JButton button = new JButton();
         button.addActionListener(new ActionListener() {
             @Override
@@ -73,10 +74,6 @@ public class DrawingApp extends Frame {
         });
         button.setText(altText);
         return button;
-    }
-
-    public static void main(String[] args) {
-        DrawingApp app = new DrawingApp();
     }
 
     private void addMainMenu() {
@@ -96,7 +93,9 @@ public class DrawingApp extends Frame {
             mnuAbout.add(new MenuItem("About")).addActionListener(new MenuBarGeneralHandler());
             menuBar.add(mnuAbout);
 
-        if(null == this.getMenuBar()) this.setMenuBar(menuBar);
+        if(null == mainFrame.getMenuBar()) mainFrame.setMenuBar(menuBar);
+    }
+
     public void setStartPoint(int x, int y) {
         this.x = x;
         this.y = y;
@@ -106,6 +105,17 @@ public class DrawingApp extends Frame {
         x2 = (x);
         y2 = (y);
     }
+
+
+
+    public void drawPerfectRect(Graphics g, int x, int y, int x2, int y2) {
+        int px = Math.min(x,x2);
+        int py = Math.min(y,y2);
+        int pw=Math.abs(x-x2);
+        int ph=Math.abs(y-y2);
+        g.drawRect(px, py, pw, ph);
+    }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.RED);
