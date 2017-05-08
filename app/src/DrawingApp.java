@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class DrawingApp extends Frame {
 
@@ -6,6 +8,13 @@ public class DrawingApp extends Frame {
         super("Java Drawing App");
         this.setSize(800, 600);
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
+
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent windowEvent){
+                System.exit(0);
+            }
+        });
     }
 
     public static void main(String[] args) {
