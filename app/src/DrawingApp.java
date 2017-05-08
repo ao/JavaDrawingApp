@@ -7,6 +7,9 @@ public class DrawingApp extends Frame {
     public DrawingApp() {
         super("Java Drawing App");
         this.setSize(800, 600);
+
+        addMainMenu();
+
         this.setVisible(true);
         this.setLocationRelativeTo(null);
 
@@ -16,7 +19,6 @@ public class DrawingApp extends Frame {
             }
         });
 
-        addMainMenu();
     }
 
     public static void main(String[] args) {
