@@ -15,9 +15,6 @@ public class DrawingApp extends JPanel {
         app.mainFrame = new JFrame("Java Drawing App");
         app.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        app.mainFrame.setContentPane(new DrawRect("RED"));
-        app.mainFrame.setSize(300, 300);
-        app.mainFrame.setVisible(true);
-
         app.mainFrame.setSize(800, 600);
 
         app.mainFrame.setLocationRelativeTo(null);
@@ -30,6 +27,8 @@ public class DrawingApp extends JPanel {
 
         app.addMainMenu();
         app.addToolbar();
+
+        app.mainFrame.setVisible(true);
     }
 
     public DrawingApp() {
