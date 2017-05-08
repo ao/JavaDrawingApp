@@ -6,18 +6,22 @@ import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class DrawingApp extends JPanel {
 
     public int x, y, x2, y2;
     public JFrame mainFrame;
     public ArrayList<Shape> shapes = new ArrayList<Shape>();
+    public DrawPane drawPane;
 
     public static void main(String[] args) {
         DrawingApp app = new DrawingApp();
         app.mainFrame = new JFrame("Java Drawing App");
         app.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        app.mainFrame.setContentPane(new DrawRect("RED"));
+        app.drawPane = new DrawPane();
+//        app.mainFrame.setContentPane(new DrawPane());
+        app.mainFrame.add(app.drawPane);
         app.mainFrame.setSize(800, 600);
 
         app.mainFrame.setLocationRelativeTo(null);
@@ -37,10 +41,11 @@ public class DrawingApp extends JPanel {
 //        app.mainFrame.addMouseListener(listener);
 //        app.mainFrame.addMouseMotionListener(listener);
 
-        app.addMouseListener(new MouseAdapter() {
+        app.drawPane.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 app.x = e.getX();
                 app.y = e.getY();
+                System.out.println("1");
                 app.repaint();
             }
 
@@ -51,14 +56,27 @@ public class DrawingApp extends JPanel {
 
                 Shape r = app.makeRectangle(app.x, app.y, app.x2, app.y2);
                 app.shapes.add(r);
+                System.out.println("2");
+
+                Graphics2D g = (Graphics2D) null;
+                Rectangle2D newRectangle = new Rectangle2D.Double();
+
+                newRectangle.setFrameFromDiagonal(app.x, app.y,app.x2, app.y2);
+
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5F));
+                g.setColor(Color.BLUE);
+                g.fill(newRectangle);
+                g.draw(newRectangle);
+
                 app.repaint();
             }
         });
 
-//        app.addMouseMotionListener(new MouseMotionAdapter() {
+//        app.drawPane.addMouseMotionListener(new MouseMotionAdapter() {
 //            public void mouseDragged(MouseEvent e) {
 //                app.x2 = e.getX();
 //                app.y2 = e.getY();
+//                System.out.println("3");
 //                app.repaint();
 //            }
 //        });
@@ -129,6 +147,7 @@ public class DrawingApp extends JPanel {
     }
 
 
+    @Override
     public void paint(Graphics g) {
         System.out.println("OH HI");
     }
@@ -141,7 +160,7 @@ public class DrawingApp extends JPanel {
         int ph=Math.abs(y-y2);
         g.drawRect(px, py, pw, ph);
     }
-    
+
     private Rectangle2D.Float makeRectangle(int x1, int y1, int x2, int y2) {
         return new Rectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
     }
