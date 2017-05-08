@@ -3,19 +3,26 @@ import java.awt.event.MouseEvent;
 
 class MyMouseListener extends MouseAdapter {
 
-    public MyMouseListener
+    DrawingApp parentApp;
+
+    public MyMouseListener(DrawingApp pa) {
+        parentApp = pa;
+    }
 
     public void mousePressed(MouseEvent e) {
-        setStartPoint(e.getX(), e.getY());
+        parentApp.setStartPoint(e.getX(), e.getY());
+        System.out.println("mousePressed: "+e.getX()+"-"+e.getY());
     }
 
     public void mouseDragged(MouseEvent e) {
-        setEndPoint(e.getX(), e.getY());
-        repaint();
+        parentApp.setEndPoint(e.getX(), e.getY());
+        parentApp.repaint();
+        System.out.println("mouseDragged: "+e.getX()+"-"+e.getY());
     }
 
     public void mouseReleased(MouseEvent e) {
-        setEndPoint(e.getX(), e.getY());
-        repaint();
+        parentApp.setEndPoint(e.getX(), e.getY());
+        parentApp.repaint();
+        System.out.println("mouseReleased: "+e.getX()+"-"+e.getY());
     }
 }
