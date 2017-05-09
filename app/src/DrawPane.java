@@ -14,7 +14,6 @@ public class DrawPane extends JPanel {
     @Override
     protected void paintComponent (Graphics g){
         super.paintComponent(g);
-        System.out.println("Paint Component");
 
         for (Rectangle r : daInstance.rectangleList) {
             drawClasses.drawRectangle(r,g);

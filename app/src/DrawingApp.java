@@ -46,16 +46,12 @@ public class DrawingApp extends JPanel {
             public void mousePressed(MouseEvent e) {
                 app.x = e.getX();
                 app.y = e.getY();
-                System.out.println("1");
                 app.repaint();
             }
 
             public void mouseReleased(MouseEvent e) {
                 app.x2 = e.getX();
                 app.y2 = e.getY();
-                app.repaint();
-
-                System.out.println("2");
 
                 if (app.currentShape.equals("Rectangle")) {
                     //draw a rectangle

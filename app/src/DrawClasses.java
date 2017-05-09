@@ -18,7 +18,7 @@ public class DrawClasses {
         Double _y2 = r.getY()+r.getHeight();
         g.drawRect(_x.intValue(), _y.intValue(), _x2.intValue(), _y2.intValue());
 
-        System.out.println("Drawn rectangle");
+        System.out.println(_x.intValue()+":"+_y.intValue()+":"+_x2.intValue()+":"+_y2.intValue());
     }
 
     public void drawCircle(Circle c, Graphics gr) {
