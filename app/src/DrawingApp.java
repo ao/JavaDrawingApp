@@ -24,8 +24,7 @@ public class DrawingApp extends JPanel {
         daInstance = app;
         app.mainFrame = new JFrame("Java Drawing App");
         app.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        app.drawPane = new DrawPane();
-//        app.mainFrame.setContentPane(new DrawPane());
+        app.drawPane = new DrawPane(app);
         app.mainFrame.add(app.drawPane);
         app.mainFrame.setSize(800, 600);
 
@@ -43,10 +42,6 @@ public class DrawingApp extends JPanel {
         app.mainFrame.setVisible(true);
 
         app.rectangleList = new ArrayList<Rectangle>();
-
-//        MyMouseListener listener = new MyMouseListener(app);
-//        app.mainFrame.addMouseListener(listener);
-//        app.mainFrame.addMouseMotionListener(listener);
 
         app.drawPane.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -67,27 +62,16 @@ public class DrawingApp extends JPanel {
                     //draw a rectangle
                     Rectangle r = new Rectangle(app.x, app.y, app.x2, app.y2);
                     app.rectangleList.add(r);
-                    app.revalidate();
                 } else if (app.currentShape.equals("Circle")) {
                     //draw a circle
                 } else if (app.currentShape.equals("Triangle")) {
                     //draw a triangle
                 }
-
-
-
+                app.drawPane.setVisible(false);
+                app.drawPane.setVisible(true);
                 app.repaint();
             }
         });
-
-//        app.drawPane.addMouseMotionListener(new MouseMotionAdapter() {
-//            public void mouseDragged(MouseEvent e) {
-//                app.x2 = e.getX();
-//                app.y2 = e.getY();
-//                System.out.println("3");
-//                app.repaint();
-//            }
-//        });
     }
 
     public DrawingApp() {
@@ -160,17 +144,6 @@ public class DrawingApp extends JPanel {
     public void setEndPoint(int x, int y) {
         this.x2 = (x);
         this.y2 = (y);
-    }
-
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        System.out.println("Paint Component");
-
-        for (Rectangle r : rectangleList) {
-            drawRectangle(r,g);
-        }
     }
 
 
