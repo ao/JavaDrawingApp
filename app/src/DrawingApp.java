@@ -14,6 +14,8 @@ public class DrawingApp extends JPanel {
     public JFrame mainFrame;
     public ArrayList<Shape> shapes = new ArrayList<Shape>();
     public DrawPane drawPane;
+    public String currentShape = "Rectangle";
+    public static DrawingApp daInstance;
 
     public static void main(String[] args) {
         DrawingApp app = new DrawingApp();
@@ -36,6 +38,8 @@ public class DrawingApp extends JPanel {
         app.addToolbar();
 
         app.mainFrame.setVisible(true);
+
+        daInstance = app;
 
 //        MyMouseListener listener = new MyMouseListener(app);
 //        app.mainFrame.addMouseListener(listener);
@@ -93,20 +97,27 @@ public class DrawingApp extends JPanel {
         mainFrame.add(toolBar, BorderLayout.PAGE_START);
     }
     protected void addToolbarButtons(JToolBar toolBar) {
+
         JButton btnRectangle;
         JButton btnCircle;
         JButton btnTriangle;
 
         btnRectangle = makeSidenavBar("Rectangle");
-        btnRectangle.addActionListener(new SideBarGeneralHandler());
+        SideBarGeneralHandler listenerRectangle = new SideBarGeneralHandler();
+        listenerRectangle.setInstance(daInstance);
+        btnRectangle.addActionListener(listenerRectangle);
         toolBar.add(btnRectangle);
 
         btnCircle = makeSidenavBar("Circle");
-        btnCircle.addActionListener(new SideBarGeneralHandler());
+        SideBarGeneralHandler listenerCircle = new SideBarGeneralHandler();
+        listenerCircle.setInstance(daInstance);
+        btnCircle.addActionListener(listenerCircle);
         toolBar.add(btnCircle);
 
         btnTriangle = makeSidenavBar("Triangle");
-        btnTriangle.addActionListener(new SideBarGeneralHandler());
+        SideBarGeneralHandler listenerTriangle = new SideBarGeneralHandler();
+        listenerTriangle.setInstance(daInstance);
+        btnTriangle.addActionListener(listenerTriangle);
         toolBar.add(btnTriangle);
     }
 
@@ -142,8 +153,8 @@ public class DrawingApp extends JPanel {
     }
 
     public void setEndPoint(int x, int y) {
-        x2 = (x);
-        y2 = (y);
+        this.x2 = (x);
+        this.y2 = (y);
     }
 
 
