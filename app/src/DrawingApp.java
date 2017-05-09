@@ -21,6 +21,7 @@ public class DrawingApp extends JPanel {
 
     public static void main(String[] args) {
         DrawingApp app = new DrawingApp();
+        daInstance = app;
         app.mainFrame = new JFrame("Java Drawing App");
         app.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         app.drawPane = new DrawPane();
@@ -40,8 +41,6 @@ public class DrawingApp extends JPanel {
         app.addToolbar();
 
         app.mainFrame.setVisible(true);
-
-        daInstance = app;
 
         app.rectangleList = new ArrayList<Rectangle>();
 
