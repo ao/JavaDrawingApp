@@ -62,15 +62,24 @@ public class DrawingApp extends JPanel {
                 app.shapes.add(r);
                 System.out.println("2");
 
-                Graphics2D g = (Graphics2D) null;
-                Rectangle2D newRectangle = new Rectangle2D.Double();
+                if (app.currentShape.equals("Rectangle")) {
+                    //draw a rectangle
+                    Graphics2D g = (Graphics2D) null;
+                    Rectangle2D newRectangle = new Rectangle2D.Double();
 
-                newRectangle.setFrameFromDiagonal(app.x, app.y,app.x2, app.y2);
+                    newRectangle.setFrameFromDiagonal(app.x, app.y,app.x2, app.y2);
 
-                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5F));
-                g.setColor(Color.BLUE);
-                g.fill(newRectangle);
-                g.draw(newRectangle);
+                    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5F));
+                    g.setColor(Color.BLUE);
+                    g.fill(newRectangle);
+                    g.draw(newRectangle);
+                } else if (app.currentShape.equals("Circle")) {
+                    //draw a circle
+                } else if (app.currentShape.equals("Triangle")) {
+                    //draw a triangle
+                }
+
+
 
                 app.repaint();
             }
