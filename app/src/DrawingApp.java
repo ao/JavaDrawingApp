@@ -6,16 +6,18 @@ import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class DrawingApp extends JPanel {
 
     public int x, y, x2, y2;
     public JFrame mainFrame;
-    public ArrayList<Shape> shapes = new ArrayList<Shape>();
     public DrawPane drawPane;
     public String currentShape = "Rectangle";
     public static DrawingApp daInstance;
+
+    public ArrayList<Rectangle> rectangleList;
 
     public static void main(String[] args) {
         DrawingApp app = new DrawingApp();
@@ -41,6 +43,8 @@ public class DrawingApp extends JPanel {
 
         daInstance = app;
 
+        app.rectangleList = new ArrayList<Rectangle>();
+
 //        MyMouseListener listener = new MyMouseListener(app);
 //        app.mainFrame.addMouseListener(listener);
 //        app.mainFrame.addMouseMotionListener(listener);
@@ -58,21 +62,13 @@ public class DrawingApp extends JPanel {
                 app.y2 = e.getY();
                 app.repaint();
 
-                Shape r = app.makeRectangle(app.x, app.y, app.x2, app.y2);
-                app.shapes.add(r);
                 System.out.println("2");
 
                 if (app.currentShape.equals("Rectangle")) {
                     //draw a rectangle
-                    Graphics2D g = (Graphics2D) null;
-                    Rectangle2D newRectangle = new Rectangle2D.Double();
-
-                    newRectangle.setFrameFromDiagonal(app.x, app.y,app.x2, app.y2);
-
-                    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5F));
-                    g.setColor(Color.BLUE);
-                    g.fill(newRectangle);
-                    g.draw(newRectangle);
+                    Rectangle r = new Rectangle(app.x, app.y, app.x2, app.y2);
+                    app.rectangleList.add(r);
+                    app.revalidate();
                 } else if (app.currentShape.equals("Circle")) {
                     //draw a circle
                 } else if (app.currentShape.equals("Triangle")) {
@@ -96,6 +92,7 @@ public class DrawingApp extends JPanel {
     }
 
     public DrawingApp() {
+        super();
         x = y = x2 = y2 = 0;
     }
 
@@ -168,21 +165,32 @@ public class DrawingApp extends JPanel {
 
 
     @Override
-    public void paint(Graphics g) {
-        System.out.println("OH HI");
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        System.out.println("Paint Component");
+
+        for (Rectangle r : rectangleList) {
+            drawRectangle(r,g);
+        }
     }
 
 
-    public void drawRect(Graphics g, int x, int y, int x2, int y2) {
-        int px = Math.min(x,x2);
-        int py = Math.min(y,y2);
-        int pw=Math.abs(x-x2);
-        int ph=Math.abs(y-y2);
-        g.drawRect(px, py, pw, ph);
-    }
+    public void drawRectangle(Rectangle r, Graphics gr) {
+        Graphics2D g;
+        if (gr instanceof Graphics2D) {
+            g = (Graphics2D) gr;
+        } else return;
 
-    private Rectangle2D.Float makeRectangle(int x1, int y1, int x2, int y2) {
-        return new Rectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
+        g.setStroke(new BasicStroke(3));
+        g.setColor(Color.BLUE);
+
+        Double _x =  r.getX();
+        Double _y = r.getY();
+        Double _x2 = r.getX()+r.getWidth();
+        Double _y2 = r.getY()+r.getHeight();
+        g.drawRect(_x.intValue(), _y.intValue(), _x2.intValue(), _y2.intValue());
+
+        System.out.println("Drawn rectangle");
     }
 
 }
