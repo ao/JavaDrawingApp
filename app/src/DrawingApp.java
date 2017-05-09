@@ -1,3 +1,5 @@
+import javafx.scene.shape.Circle;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -18,6 +20,8 @@ public class DrawingApp extends JPanel {
     public static DrawingApp daInstance;
 
     public ArrayList<Rectangle> rectangleList;
+    public ArrayList<Shape> triangleList;
+    public ArrayList<Circle> circleList;
 
     public static void main(String[] args) {
         DrawingApp app = new DrawingApp();
@@ -42,6 +46,8 @@ public class DrawingApp extends JPanel {
         app.mainFrame.setVisible(true);
 
         app.rectangleList = new ArrayList<Rectangle>();
+        app.triangleList = new ArrayList<Shape>();
+        app.circleList = new ArrayList<Circle>();
 
         app.drawPane.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -64,6 +70,8 @@ public class DrawingApp extends JPanel {
                     app.rectangleList.add(r);
                 } else if (app.currentShape.equals("Circle")) {
                     //draw a circle
+                    Circle c = new Circle(app.x, app.y, app.x2/2);
+                    app.circleList.add(c);
                 } else if (app.currentShape.equals("Triangle")) {
                     //draw a triangle
                 }
@@ -144,25 +152,6 @@ public class DrawingApp extends JPanel {
     public void setEndPoint(int x, int y) {
         this.x2 = (x);
         this.y2 = (y);
-    }
-
-
-    public void drawRectangle(Rectangle r, Graphics gr) {
-        Graphics2D g;
-        if (gr instanceof Graphics2D) {
-            g = (Graphics2D) gr;
-        } else return;
-
-        g.setStroke(new BasicStroke(3));
-        g.setColor(Color.BLUE);
-
-        Double _x =  r.getX();
-        Double _y = r.getY();
-        Double _x2 = r.getX()+r.getWidth();
-        Double _y2 = r.getY()+r.getHeight();
-        g.drawRect(_x.intValue(), _y.intValue(), _x2.intValue(), _y2.intValue());
-
-        System.out.println("Drawn rectangle");
     }
 
 }
