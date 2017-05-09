@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.event.*;
 
-class MenuBarGeneralHandler extends WindowAdapter implements ActionListener {
+public class MenuBarGeneralHandler extends WindowAdapter implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("Exit")) {
             System.exit(0);

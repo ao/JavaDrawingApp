@@ -1,15 +1,8 @@
 import javafx.scene.shape.Circle;
-
 import javax.swing.*;
-
 import java.awt.*;
-import java.awt.Graphics;
-
 import java.awt.event.*;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DrawingApp extends JPanel {
 

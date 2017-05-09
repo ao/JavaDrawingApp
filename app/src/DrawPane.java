@@ -1,10 +1,8 @@
 import javafx.scene.shape.Circle;
-
 import javax.swing.*;
 import java.awt.*;
 
-class DrawPane extends JPanel {
-    private String color = "BLACK";
+public class DrawPane extends JPanel {
     private DrawingApp daInstance;
     private DrawClasses drawClasses;
 

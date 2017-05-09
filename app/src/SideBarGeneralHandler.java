@@ -2,7 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 
-class SideBarGeneralHandler extends WindowAdapter implements ActionListener {
+public class SideBarGeneralHandler extends WindowAdapter implements ActionListener {
     DrawingApp daInstance;
 
     public void setInstance(DrawingApp daInstance) {

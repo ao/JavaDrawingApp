@@ -1,7 +1,7 @@
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-class MyMouseListener extends MouseAdapter {
+public class MyMouseListener extends MouseAdapter {
 
     DrawingApp parentApp;
 
