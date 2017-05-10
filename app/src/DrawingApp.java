@@ -20,10 +20,10 @@ public class DrawingApp extends JPanel {
     public String currentShape = "Rectangle";
     public static DrawingApp daInstance;
 
-    public ArrayList<Rectangle> rectangleList;
-    public ArrayList<Shape> triangleList;
-    public ArrayList<Circle> circleList;
-    public List<Point> freeDrawPath;
+    public ArrayList<Rectangle> rectangleList = new ArrayList<Rectangle>();
+    public ArrayList<Shape> triangleList = new ArrayList<Shape>();
+    public ArrayList<Circle> circleList = new ArrayList<Circle>();
+    public List<Point> freeDrawPath = new ArrayList<>(25);
 
     public static void main(String[] args) {
         DrawingApp app = new DrawingApp();
@@ -51,54 +51,53 @@ public class DrawingApp extends JPanel {
 
         app.mainFrame.setVisible(true);
 
-        app.rectangleList = new ArrayList<Rectangle>();
-        app.triangleList = new ArrayList<Shape>();
-        app.circleList = new ArrayList<Circle>();
-        app.freeDrawPath = new ArrayList<>(25);
+        app.addTheMouseListener();
+    }
 
-        app.drawPane.addMouseListener(new MouseAdapter() {
+    public void addTheMouseListener() {
+        drawPane.addMouseListener(new MouseAdapter() {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                app.x = e.getX();
-                app.y = e.getY();
-                app.repaint();
+                x = e.getX();
+                y = e.getY();
+                repaint();
 
-                if (app.currentShape.equals("FreeDraw")) {
-//                    app.freeDrawPath = new ArrayList<>(25);
-                    app.freeDrawPath.add(e.getPoint());
+                if (currentShape.equals("FreeDraw")) {
+//                    freeDrawPath = new ArrayList<>(25);
+                    freeDrawPath.add(e.getPoint());
                 }
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                if (app.currentShape.equals("FreeDraw")) {
-                    app.freeDrawPath.add(e.getPoint());
-                    app.repaint();
+                if (currentShape.equals("FreeDraw")) {
+                    freeDrawPath.add(e.getPoint());
+                    repaint();
                 }
             };
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                app.x2 = e.getX();
-                app.y2 = e.getY();
+                x2 = e.getX();
+                y2 = e.getY();
 
-                if (app.currentShape.equals("Rectangle")) {
+                if (currentShape.equals("Rectangle")) {
                     //draw a rectangle
-                    Rectangle r = new Rectangle(app.x, app.y, app.x2, app.y2);
-                    app.rectangleList.add(r);
-                } else if (app.currentShape.equals("Circle")) {
+                    Rectangle r = new Rectangle(x, y, x2, y2);
+                    rectangleList.add(r);
+                } else if (currentShape.equals("Circle")) {
                     //draw a circle
-                    Circle c = new Circle(app.x, app.y, app.x2/2);
-                    app.circleList.add(c);
-                } else if (app.currentShape.equals("Triangle")) {
+                    Circle c = new Circle(x, y, x2/2);
+                    circleList.add(c);
+                } else if (currentShape.equals("Triangle")) {
                     //draw a triangle
                 }
-                app.drawPane.setVisible(false);
-                app.drawPane.setVisible(true);
-                app.repaint();
+                drawPane.setVisible(false);
+                drawPane.setVisible(true);
+                repaint();
 
-                if (app.currentShape.equals("FreeDraw")) {
+                if (currentShape.equals("FreeDraw")) {
 //                    app.freeDrawPath = null;
                 }
             }
@@ -113,7 +112,7 @@ public class DrawingApp extends JPanel {
     private void addToolbar() {
         JToolBar toolBar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
         addToolbarButtons(toolBar);
-        toolBar.setFloatable(false);
+        toolBar.setFloatable(true);
         mainFrame.add(toolBar, BorderLayout.PAGE_START);
     }
     protected void addToolbarButtons(JToolBar toolBar) {

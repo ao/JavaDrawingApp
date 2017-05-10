@@ -17,8 +17,8 @@ public class DrawClasses {
 
         Double _x =  r.getX();
         Double _y = r.getY();
-        Double _x2 = r.getX()+r.getWidth();
-        Double _y2 = r.getY()+r.getHeight();
+        Double _x2 = r.getWidth()-r.getX();
+        Double _y2 = r.getHeight()-r.getY();
         g.drawRect(_x.intValue(), _y.intValue(), _x2.intValue(), _y2.intValue());
 
         System.out.println(_x.intValue()+":"+_y.intValue()+":"+_x2.intValue()+":"+_y2.intValue());
