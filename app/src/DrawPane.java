@@ -22,5 +22,7 @@ public class DrawPane extends JPanel {
         for (Circle c : daInstance.circleList) {
             drawClasses.drawCircle(c,g);
         }
+
+        drawClasses.drawFreeDraw(daInstance.freeDrawPath,g);
     }
 }

@@ -3,26 +3,39 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class DrawingApp extends JPanel {
 
     public int x, y, x2, y2;
     public JFrame mainFrame;
     public DrawPane drawPane;
+    public JPanel itemsPanel;
     public String currentShape = "Rectangle";
     public static DrawingApp daInstance;
 
     public ArrayList<Rectangle> rectangleList;
     public ArrayList<Shape> triangleList;
     public ArrayList<Circle> circleList;
+    public List<Point> freeDrawPath;
 
     public static void main(String[] args) {
         DrawingApp app = new DrawingApp();
         daInstance = app;
         app.mainFrame = new JFrame("Java Drawing App");
+
         app.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         app.drawPane = new DrawPane(app);
+        app.itemsPanel = new JPanel();
+
         app.mainFrame.add(app.drawPane);
+
         app.mainFrame.setSize(800, 600);
 
         app.mainFrame.setLocationRelativeTo(null);
@@ -41,14 +54,31 @@ public class DrawingApp extends JPanel {
         app.rectangleList = new ArrayList<Rectangle>();
         app.triangleList = new ArrayList<Shape>();
         app.circleList = new ArrayList<Circle>();
+        app.freeDrawPath = new ArrayList<>(25);
 
         app.drawPane.addMouseListener(new MouseAdapter() {
+
+            @Override
             public void mousePressed(MouseEvent e) {
                 app.x = e.getX();
                 app.y = e.getY();
                 app.repaint();
+
+                if (app.currentShape.equals("FreeDraw")) {
+//                    app.freeDrawPath = new ArrayList<>(25);
+                    app.freeDrawPath.add(e.getPoint());
+                }
             }
 
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                if (app.currentShape.equals("FreeDraw")) {
+                    app.freeDrawPath.add(e.getPoint());
+                    app.repaint();
+                }
+            };
+
+            @Override
             public void mouseReleased(MouseEvent e) {
                 app.x2 = e.getX();
                 app.y2 = e.getY();
@@ -67,6 +97,10 @@ public class DrawingApp extends JPanel {
                 app.drawPane.setVisible(false);
                 app.drawPane.setVisible(true);
                 app.repaint();
+
+                if (app.currentShape.equals("FreeDraw")) {
+//                    app.freeDrawPath = null;
+                }
             }
         });
     }
@@ -87,6 +121,7 @@ public class DrawingApp extends JPanel {
         JButton btnRectangle;
         JButton btnCircle;
         JButton btnTriangle;
+        JButton btnFreeDraw;
 
         btnRectangle = makeSidenavBar("Rectangle");
         SideBarGeneralHandler listenerRectangle = new SideBarGeneralHandler();
@@ -105,6 +140,12 @@ public class DrawingApp extends JPanel {
         listenerTriangle.setInstance(daInstance);
         btnTriangle.addActionListener(listenerTriangle);
         toolBar.add(btnTriangle);
+
+        btnFreeDraw = makeSidenavBar("FreeDraw");
+        SideBarGeneralHandler listenerFreeDraw = new SideBarGeneralHandler();
+        listenerFreeDraw.setInstance(daInstance);
+        btnFreeDraw.addActionListener(listenerFreeDraw);
+        toolBar.add(btnFreeDraw);
     }
 
     private JButton makeSidenavBar(String altText) {

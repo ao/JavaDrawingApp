@@ -16,6 +16,8 @@ public class SideBarGeneralHandler extends WindowAdapter implements ActionListen
             daInstance.currentShape = e.getActionCommand();
         } else if (e.getActionCommand().equals("Triangle")) {
             daInstance.currentShape = e.getActionCommand();
+        } else if (e.getActionCommand().equals("FreeDraw")) {
+            daInstance.currentShape = e.getActionCommand();
         }
     }
 }

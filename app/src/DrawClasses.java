@@ -1,6 +1,9 @@
 import javafx.scene.shape.Circle;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.List;
 
 public class DrawClasses {
     public void drawRectangle(Rectangle r, Graphics gr) {
@@ -32,5 +35,25 @@ public class DrawClasses {
 
         Shape theCircle = new Ellipse2D.Double(c.getCenterX() - c.getRadius(), c.getCenterY() - c.getRadius(), 2.0 * c.getRadius(), 2.0 * c.getRadius());
         g.draw(theCircle);
+    }
+
+    public void drawFreeDraw(List<Point> p, Graphics gr) {
+        System.out.println(p);
+        Graphics2D g;
+        if (gr instanceof Graphics2D) {
+            g = (Graphics2D) gr;
+        } else return;
+
+        Point last = null;
+
+        if (p==null) return;
+
+        for (Point item : p) {
+            if (item != null) {
+                Point lastPoint = last==null ? new Point(item.x,item.y) : last;
+                g.drawLine(lastPoint.x, lastPoint.y, item.x, item.y);
+            }
+            last = item;
+        }
     }
 }
