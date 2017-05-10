@@ -8,7 +8,7 @@ public class DrawPane extends JPanel {
 
     public DrawPane(DrawingApp daInstance) {
         this.daInstance = daInstance;
-        this.drawClasses = new DrawClasses();
+        this.drawClasses = new DrawClasses(daInstance);
     }
 
     @Override

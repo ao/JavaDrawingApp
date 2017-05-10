@@ -6,19 +6,29 @@ import java.awt.Rectangle;
 import java.util.List;
 
 public class DrawClasses {
+    private DrawingApp daInstance;
+
+    public DrawClasses(DrawingApp daInstance) {
+        this.daInstance = daInstance;
+    }
     public void drawRectangle(Rectangle r, Graphics gr) {
         Graphics2D g;
         if (gr instanceof Graphics2D) {
             g = (Graphics2D) gr;
         } else return;
 
-        g.setStroke(new BasicStroke(3));
-        g.setColor(Color.BLUE);
-
         Double _x =  r.getX();
         Double _y = r.getY();
         Double _x2 = r.getWidth()-r.getX();
         Double _y2 = r.getHeight()-r.getY();
+
+        g.setStroke(new BasicStroke(3));
+        // TODO: FIX THIS STUFF BELOW
+//        g.setColor(daInstance.fillColour);
+//        g.fill(r);
+        // TODO: FIX THIS STUFF ABOVE
+        g.setColor(daInstance.strokeColour);
+
         g.drawRect(_x.intValue(), _y.intValue(), _x2.intValue(), _y2.intValue());
 
         System.out.println(_x.intValue()+":"+_y.intValue()+":"+_x2.intValue()+":"+_y2.intValue());
@@ -31,7 +41,8 @@ public class DrawClasses {
         } else return;
 
         g.setStroke(new BasicStroke(3));
-        g.setColor(Color.BLUE);
+        g.setColor(daInstance.strokeColour);
+        g.setBackground(daInstance.fillColour);
 
         Shape theCircle = new Ellipse2D.Double(c.getCenterX() - c.getRadius(), c.getCenterY() - c.getRadius(), 2.0 * c.getRadius(), 2.0 * c.getRadius());
         g.draw(theCircle);
@@ -47,6 +58,8 @@ public class DrawClasses {
         Point last = null;
 
         if (p==null) return;
+
+        g.setColor(daInstance.strokeColour);
 
         for (Point item : p) {
             if (item != null) {

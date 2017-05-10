@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.Color;
 
 public class DrawingApp extends JPanel {
 
@@ -24,6 +25,9 @@ public class DrawingApp extends JPanel {
     public ArrayList<Shape> triangleList = new ArrayList<Shape>();
     public ArrayList<Circle> circleList = new ArrayList<Circle>();
     public List<Point> freeDrawPath = new ArrayList<>(25);
+
+    public Color fillColour = new Color(255, 0, 0); //red
+    public Color strokeColour = new Color(0, 0, 255); //blue
 
     public static void main(String[] args) {
         DrawingApp app = new DrawingApp();
@@ -48,6 +52,7 @@ public class DrawingApp extends JPanel {
 
         app.addMainMenu();
         app.addToolbar();
+        app.addLayersToolbar();
 
         app.mainFrame.setVisible(true);
 
@@ -116,35 +121,52 @@ public class DrawingApp extends JPanel {
         mainFrame.add(toolBar, BorderLayout.PAGE_START);
     }
     protected void addToolbarButtons(JToolBar toolBar) {
-
-        JButton btnRectangle;
-        JButton btnCircle;
-        JButton btnTriangle;
-        JButton btnFreeDraw;
-
-        btnRectangle = makeSidenavBar("Rectangle");
+        JButton btnRectangle = makeSidenavBar("Rectangle");
         SideBarGeneralHandler listenerRectangle = new SideBarGeneralHandler();
         listenerRectangle.setInstance(daInstance);
         btnRectangle.addActionListener(listenerRectangle);
         toolBar.add(btnRectangle);
 
-        btnCircle = makeSidenavBar("Circle");
+        JButton btnCircle = makeSidenavBar("Circle");
         SideBarGeneralHandler listenerCircle = new SideBarGeneralHandler();
         listenerCircle.setInstance(daInstance);
         btnCircle.addActionListener(listenerCircle);
         toolBar.add(btnCircle);
 
-        btnTriangle = makeSidenavBar("Triangle");
+        JButton btnTriangle = makeSidenavBar("Triangle");
         SideBarGeneralHandler listenerTriangle = new SideBarGeneralHandler();
         listenerTriangle.setInstance(daInstance);
         btnTriangle.addActionListener(listenerTriangle);
         toolBar.add(btnTriangle);
 
-        btnFreeDraw = makeSidenavBar("FreeDraw");
+        JButton btnFreeDraw = makeSidenavBar("FreeDraw");
         SideBarGeneralHandler listenerFreeDraw = new SideBarGeneralHandler();
         listenerFreeDraw.setInstance(daInstance);
         btnFreeDraw.addActionListener(listenerFreeDraw);
         toolBar.add(btnFreeDraw);
+
+        JButton btnChooseFillColour = makeSidenavBar("Choose Fill Colour");
+        SideBarGeneralHandler listenerChooseFillColour = new SideBarGeneralHandler();
+        listenerChooseFillColour.setInstance(daInstance);
+        btnChooseFillColour.addActionListener(listenerChooseFillColour);
+        toolBar.add(btnChooseFillColour);
+
+        JButton btnChooseStrokeColour = makeSidenavBar("Choose Stroke Colour");
+        SideBarGeneralHandler listenerChooseStrokeColour = new SideBarGeneralHandler();
+        listenerChooseStrokeColour.setInstance(daInstance);
+        btnChooseStrokeColour.addActionListener(listenerChooseStrokeColour);
+        toolBar.add(btnChooseStrokeColour);
+
+
+    }
+    private void addLayersToolbar() {
+//        JToolBar layerToolBar = new JToolBar("Layer Toolbar", JToolBar.VERTICAL);
+//        addLayerToolbarButtons(layerToolBar);
+//        layerToolBar.setFloatable(true);
+//        mainFrame.add(layerToolBar, BorderLayout.PAGE_START);
+    }
+    protected void addLayerToolbarButtons(JToolBar layerToolBar) {
+        //
     }
 
     private JButton makeSidenavBar(String altText) {
