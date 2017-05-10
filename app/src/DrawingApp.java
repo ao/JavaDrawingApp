@@ -174,14 +174,4 @@ public class DrawingApp extends JPanel {
         if(null == mainFrame.getMenuBar()) mainFrame.setMenuBar(menuBar);
     }
 
-    public void setStartPoint(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public void setEndPoint(int x, int y) {
-        this.x2 = (x);
-        this.y2 = (y);
-    }
-
 }
