@@ -30,12 +30,29 @@ public class DrawingInternalFrame extends JInternalFrame {
 
     public boolean isMouseDown = false;
 
-    public DrawingInternalFrame() {
-        super("Document #" + (++openFrameCount),
+    public DrawingApp daInstance;
+
+    public ImageIcon imageBytes;
+
+    public JToolBar toolBar;
+
+    public DrawingInternalFrame(DrawingApp daInstance) {
+        super("Drawing #" + (++openFrameCount),
                 true, //resizable
                 true, //closable
                 true, //maximizable
-                true);//iconifiable
+                true); //iconifiable
+
+        subConstructor(daInstance);
+    }
+
+    public DrawingInternalFrame(DrawingApp daInstance, byte[] bytes) {
+        imageBytes = new ImageIcon(bytes);
+        subConstructor(daInstance);
+    }
+
+    public void subConstructor(DrawingApp daInstance) {
+        this.daInstance = daInstance;
 
         x = y = x2 = y2 = 0;
 
@@ -64,6 +81,11 @@ public class DrawingInternalFrame extends JInternalFrame {
 
         //Set the window's location.
         setLocation(xOffset*openFrameCount, yOffset*openFrameCount);
+
+        if (imageBytes!=null) {
+            JLabel label = new JLabel("", imageBytes, JLabel.CENTER);
+            drawPane.add( label, BorderLayout.CENTER );
+        }
     }
 
     public void addMouseMotionListener() {
@@ -141,7 +163,7 @@ public class DrawingInternalFrame extends JInternalFrame {
 
     public void addToolbar(DrawingInternalFrame mif) {
         BasicToolBarUI ui = new BasicToolBarUI();
-        JToolBar toolBar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
+        toolBar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
         toolBar.setUI(ui);
         addToolbarButtons(toolBar);
         toolBar.setFloatable(true);

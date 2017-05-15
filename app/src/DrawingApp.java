@@ -54,7 +54,6 @@ public class DrawingApp extends JPanel {
         });
 
         app.addMainMenu();
-        app.addLayersToolbar();
 
         app.mainFrame.setVisible(true);
 
@@ -62,26 +61,27 @@ public class DrawingApp extends JPanel {
     }
 
     public void createFrame() {
-        DrawingInternalFrame frame = new DrawingInternalFrame();
-        frame.setVisible(true); //necessary as of 1.3
+        DrawingInternalFrame frame = new DrawingInternalFrame(this);
+        frame.setVisible(true);
         document.add(frame);
         try {
             frame.setSelected(true);
         } catch (java.beans.PropertyVetoException e) {}
     }
 
-    public DrawingApp() {
-        super();
+    public void createFrameFromBytes(byte[] bytes) {
+        System.out.println(bytes.toString());
+
+        DrawingInternalFrame frame = new DrawingInternalFrame(this, bytes);
+
+        frame.setVisible(true);
+        document.add(frame);
+//        frame.getContentPane().createImage(  );
+
     }
 
-    private void addLayersToolbar() {
-//        JToolBar layerToolBar = new JToolBar("Layer Toolbar", JToolBar.VERTICAL);
-//        addLayerToolbarButtons(layerToolBar);
-//        layerToolBar.setFloatable(true);
-//        mainFrame.add(layerToolBar, BorderLayout.PAGE_START);
-    }
-    protected void addLayerToolbarButtons(JToolBar layerToolBar) {
-        //
+    public DrawingApp() {
+        super();
     }
 
     private void addMainMenu() {
@@ -89,6 +89,7 @@ public class DrawingApp extends JPanel {
 
         Menu mnuFile = new Menu("File");
             mnuFile.add(new MenuItem("New")).addActionListener(new MenuBarGeneralHandler(this));
+            mnuFile.add(new MenuItem("Open")).addActionListener(new MenuBarGeneralHandler(this));
             mnuFile.add(new MenuItem("Save")).addActionListener(new MenuBarGeneralHandler(this));
             mnuFile.add(new MenuItem("Exit")).addActionListener(new MenuBarGeneralHandler(this));
             menuBar.add(mnuFile);
