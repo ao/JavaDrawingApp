@@ -16,6 +16,7 @@ import java.awt.Color;
 public class DrawingApp extends JPanel {
 
     public JFrame mainFrame;
+    public JFrame desktopFrame;
     public DrawPane drawPane;
 
     public static DrawingApp daInstance;
@@ -23,30 +24,28 @@ public class DrawingApp extends JPanel {
     public List<JDesktopPane> documents;
     public JDesktopPane document;
 
-    private boolean Am_I_In_FullScreen = false;
-    private int PrevX, PrevY, PrevWidth, PrevHeight;
+    public JToolBar toolBar;
 
     public static void main(String[] args) {
         DrawingApp app = new DrawingApp();
         daInstance = app;
         app.mainFrame = new JFrame("Java Drawing App");
+        app.desktopFrame = new JFrame("Desktop Area");
 
         app.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        app.mainFrame.getContentPane().setLayout(new BorderLayout());
 
         app.documents = new ArrayList<JDesktopPane>();
         app.document = new JDesktopPane();
         app.createFrame();
         app.mainFrame.setContentPane(app.document);
-        app.document.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 
+        app.document.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
         app.documents.add(app.document);
 
         app.mainFrame.setSize(800, 600);
-
         app.mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
         app.mainFrame.setLocationRelativeTo(null);
-
         app.mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent){
                 System.exit(0);
@@ -56,7 +55,6 @@ public class DrawingApp extends JPanel {
         app.addMainMenu();
 
         app.mainFrame.setVisible(true);
-
         app.mainFrame.setExtendedState( app.mainFrame.getExtendedState()|JFrame.MAXIMIZED_BOTH );
     }
 
@@ -71,13 +69,9 @@ public class DrawingApp extends JPanel {
 
     public void createFrameFromBytes(byte[] bytes) {
         System.out.println(bytes.toString());
-
         DrawingInternalFrame frame = new DrawingInternalFrame(this, bytes);
-
         frame.setVisible(true);
         document.add(frame);
-//        frame.getContentPane().createImage(  );
-
     }
 
     public DrawingApp() {

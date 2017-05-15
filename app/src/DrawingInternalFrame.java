@@ -3,6 +3,7 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicToolBarUI;
 import java.awt.event.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -16,25 +17,24 @@ public class DrawingInternalFrame extends JInternalFrame {
 
     public DrawPane drawPane;
 
-    public int x, y, x2, y2;
+    public int x, y, x2, y2, prevX, prevY;
 
-    public String currentShape = "Rectangle";
+    public String currentShape = "FreeDraw";
 
     public ArrayList<Rectangle> rectangleList = new ArrayList<Rectangle>();
-    public ArrayList<Shape> triangleList = new ArrayList<Shape>();
     public ArrayList<Circle> circleList = new ArrayList<Circle>();
     public java.util.List<Point> freeDrawPath = new ArrayList<>(25);
 
     public Color fillColour = new Color(255, 0, 0); //red
     public Color strokeColour = new Color(0, 0, 255); //blue
 
-    public boolean isMouseDown = false;
-
     public DrawingApp daInstance;
 
     public ImageIcon imageBytes;
 
     public JToolBar toolBar;
+
+    public BasicStroke stroke;
 
     public DrawingInternalFrame(DrawingApp daInstance) {
         super("Drawing #" + (++openFrameCount),
@@ -61,22 +61,6 @@ public class DrawingInternalFrame extends JInternalFrame {
 
         addToolbar(this);
 
-        JMenuBar menuBar = new JMenuBar();
-
-        JMenu mnuFile = new JMenu("Show");
-        mnuFile.add(new JMenuItem("Item1")).addActionListener(new MenuBarSubGeneralHandler(this));
-        menuBar.add(mnuFile);
-
-        JMenu mnuAbout = new JMenu("Dont Show");
-        mnuAbout.add(new JMenuItem("item2")).addActionListener(new MenuBarSubGeneralHandler(this));
-        menuBar.add(mnuAbout);
-
-        if(null == this.getMenuBar()) this.setMenuBar(menuBar);
-
-        addTheMouseListener();
-        addMouseMotionListener();
-
-
         setSize(640,480);
 
         //Set the window's location.
@@ -86,79 +70,28 @@ public class DrawingInternalFrame extends JInternalFrame {
             JLabel label = new JLabel("", imageBytes, JLabel.CENTER);
             drawPane.add( label, BorderLayout.CENTER );
         }
+
+        stroke = new BasicStroke(3,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
     }
 
-    public void addMouseMotionListener() {
-        drawPane.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                super.mouseDragged(e);
-                if (isMouseDown) {
-                    if (currentShape.equals("Rectangle")) {
-                        //draw a rectangle
-                        Rectangle r = new Rectangle(x, y, x2, y2);
-                        rectangleList.add(r);
-                    } else if (currentShape.equals("Circle")) {
-                        //draw a circle
-                        Circle c = new Circle(x, y, x2/2);
-                        circleList.add(c);
-                    } else if (currentShape.equals("Triangle")) {
-                        //draw a triangle
-                    }
+//    public void mouseRepeatCode() {
+//        if (currentShape.equals("Rectangle")) {
+//            //draw a rectangle
+//            Rectangle r = new Rectangle(x, y, x2, y2);
+//            rectangleList.add(r);
+//        } else if (currentShape.equals("Circle")) {
+//            //draw a circle
+//            Circle c = new Circle(x, y, x2/2);
+//            circleList.add(c);
+//        } else if (currentShape.equals("Triangle")) {
+//            //draw a triangle
+//        }
+//    }
 
-                    if (currentShape.equals("FreeDraw")) {
-                        freeDrawPath.add(e.getPoint());
-                        repaint();
-                    }
-                }
-            }
-        });
-    }
-    public void addTheMouseListener() {
-        drawPane.addMouseListener(new MouseAdapter() {
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-                isMouseDown = true;
 
-                x = e.getX();
-                y = e.getY();
-                repaint();
 
-                if (currentShape.equals("FreeDraw")) {
-//                    freeDrawPath = new ArrayList<>(25);
-                    freeDrawPath.add(e.getPoint());
-                }
-            }
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                isMouseDown = false;
-
-                x2 = e.getX();
-                y2 = e.getY();
-
-                if (currentShape.equals("Rectangle")) {
-                    //draw a rectangle
-                    Rectangle r = new Rectangle(x, y, x2, y2);
-                    rectangleList.add(r);
-                } else if (currentShape.equals("Circle")) {
-                    //draw a circle
-                    Circle c = new Circle(x, y, x2/2);
-                    circleList.add(c);
-                } else if (currentShape.equals("Triangle")) {
-                    //draw a triangle
-                }
-                drawPane.setVisible(false);
-                drawPane.setVisible(true);
-                repaint();
-
-                if (currentShape.equals("FreeDraw")) {
-//                    app.freeDrawPath = null;
-                }
-            }
-        });
-    }
 
 
     public void addToolbar(DrawingInternalFrame mif) {
@@ -170,53 +103,75 @@ public class DrawingInternalFrame extends JInternalFrame {
         mif.add(toolBar, BorderLayout.PAGE_START);
     }
     protected void addToolbarButtons(JToolBar toolBar) {
-        JButton btnRectangle = makeSidenavBar("Rectangle");
-        SideBarGeneralHandler listenerRectangle = new SideBarGeneralHandler();
-        listenerRectangle.setInstance(this);
-        btnRectangle.addActionListener(listenerRectangle);
-        toolBar.add(btnRectangle);
-
-        JButton btnCircle = makeSidenavBar("Circle");
-        SideBarGeneralHandler listenerCircle = new SideBarGeneralHandler();
-        listenerCircle.setInstance(this);
-        btnCircle.addActionListener(listenerCircle);
-        toolBar.add(btnCircle);
-
-        JButton btnTriangle = makeSidenavBar("Triangle");
-        SideBarGeneralHandler listenerTriangle = new SideBarGeneralHandler();
-        listenerTriangle.setInstance(this);
-        btnTriangle.addActionListener(listenerTriangle);
-        toolBar.add(btnTriangle);
-
-        JButton btnFreeDraw = makeSidenavBar("FreeDraw");
-        SideBarGeneralHandler listenerFreeDraw = new SideBarGeneralHandler();
-        listenerFreeDraw.setInstance(this);
-        btnFreeDraw.addActionListener(listenerFreeDraw);
-        toolBar.add(btnFreeDraw);
-
-        JButton btnChooseFillColour = makeSidenavBar("Choose Fill Colour");
-        SideBarGeneralHandler listenerChooseFillColour = new SideBarGeneralHandler();
-        listenerChooseFillColour.setInstance(this);
-        btnChooseFillColour.addActionListener(listenerChooseFillColour);
-        toolBar.add(btnChooseFillColour);
-
-        JButton btnChooseStrokeColour = makeSidenavBar("Choose Stroke Colour");
-        SideBarGeneralHandler listenerChooseStrokeColour = new SideBarGeneralHandler();
-        listenerChooseStrokeColour.setInstance(this);
-        btnChooseStrokeColour.addActionListener(listenerChooseStrokeColour);
-        toolBar.add(btnChooseStrokeColour);
-
-    }
-
-    private JButton makeSidenavBar(String altText) {
-        JButton button = new JButton();
-        button.addActionListener(new ActionListener() {
+        ImageIcon freedrawIcon = new ImageIcon( DrawingInternalFrame.class.getResource("/resources/paintbrush.png") );
+        Action freedrawAction = new AbstractAction("freedraw", freedrawIcon) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //
+                currentShape = "FreeDraw";
+            }
+        };
+        toolBar.add(freedrawAction);
+
+        ImageIcon rectangleIcon = new ImageIcon( DrawingInternalFrame.class.getResource("/resources/rectangle.png") );
+        Action rectangleAction = new AbstractAction("rectangle", rectangleIcon) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentShape = "Rectangle";
+            }
+        };
+        toolBar.add(rectangleAction);
+
+        ImageIcon circleIcon = new ImageIcon( DrawingInternalFrame.class.getResource("/resources/circle.png") );
+        Action circleAction = new AbstractAction("circle", circleIcon) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentShape = "Circle";
+            }
+        };
+        toolBar.add(circleAction);
+
+        ButtonGroup group = new ButtonGroup();
+        toolBar.add( makeColourButton("stroke", strokeColour, group, true) );
+        toolBar.add( makeColourButton("fill", fillColour, group, true) );
+    }
+
+    private JRadioButton makeColourButton(String strokeOrFill, final Color c, ButtonGroup grp, boolean selected) {
+
+        final String finalStrokeOrFill = (strokeOrFill==null) ? "stroke" : strokeOrFill;
+
+        BufferedImage image = new BufferedImage(20,20,BufferedImage.TYPE_INT_RGB);
+        Graphics g = image.getGraphics();
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(0,0,30,30);
+        g.setColor(c);
+        g.fill3DRect(1, 1, 24, 24, true);
+        g.dispose();
+        Icon unselectedIcon = new ImageIcon(image);
+
+        image = new BufferedImage(20,20,BufferedImage.TYPE_INT_RGB);
+        g = image.getGraphics();
+        g.setColor(Color.DARK_GRAY);
+        g.fillRect(0,0,30,30);
+        g.setColor(c);
+        g.fill3DRect(3, 3, 24, 24, false);
+        g.dispose();
+        Icon selectedIcon = new ImageIcon(image);
+
+        JRadioButton button = new JRadioButton(unselectedIcon);
+        button.setSelectedIcon(selectedIcon);
+        button.addActionListener( new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (finalStrokeOrFill.equals("stroke")) {
+                    strokeColour = JColorChooser.showDialog(null, "Choose a stroke color", strokeColour);
+                } else {
+                    fillColour = JColorChooser.showDialog(null, "Choose a fill color", fillColour);
+                }
             }
         });
-        button.setText(altText);
+        grp.add(button);
+        if (selected)
+            button.setSelected(true);
+
         return button;
     }
 }

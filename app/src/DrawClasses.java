@@ -60,6 +60,7 @@ public class DrawClasses {
         if (p==null) return;
 
         g.setColor(daInstance.strokeColour);
+        g.setStroke(daInstance.stroke);
 
         for (Point item : p) {
             if (item != null) {
