@@ -28,8 +28,9 @@ public class DrawClasses {
 //        g.fill(r);
         // TODO: FIX THIS STUFF ABOVE
         g.setColor(daInstance.strokeColour);
-
         g.drawRect(_x.intValue(), _y.intValue(), _x2.intValue(), _y2.intValue());
+        g.setColor(daInstance.fillColour);
+        g.fillRect(_x.intValue(), _y.intValue(), _x2.intValue(), _y2.intValue());
 
         System.out.println(_x.intValue()+":"+_y.intValue()+":"+_x2.intValue()+":"+_y2.intValue());
     }

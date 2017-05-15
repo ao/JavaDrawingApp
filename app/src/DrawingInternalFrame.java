@@ -74,26 +74,6 @@ public class DrawingInternalFrame extends JInternalFrame {
         stroke = new BasicStroke(3,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
     }
 
-//    public void mouseRepeatCode() {
-//        if (currentShape.equals("Rectangle")) {
-//            //draw a rectangle
-//            Rectangle r = new Rectangle(x, y, x2, y2);
-//            rectangleList.add(r);
-//        } else if (currentShape.equals("Circle")) {
-//            //draw a circle
-//            Circle c = new Circle(x, y, x2/2);
-//            circleList.add(c);
-//        } else if (currentShape.equals("Triangle")) {
-//            //draw a triangle
-//        }
-//    }
-
-
-
-
-
-
-
     public void addToolbar(DrawingInternalFrame mif) {
         BasicToolBarUI ui = new BasicToolBarUI();
         toolBar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
@@ -155,10 +135,10 @@ public class DrawingInternalFrame extends JInternalFrame {
         g.setColor(c);
         g.fill3DRect(3, 3, 24, 24, false);
         g.dispose();
-        Icon selectedIcon = new ImageIcon(image);
+//        Icon selectedIcon = new ImageIcon(image);
 
         JRadioButton button = new JRadioButton(unselectedIcon);
-        button.setSelectedIcon(selectedIcon);
+//        button.setSelectedIcon(selectedIcon);
         button.addActionListener( new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (finalStrokeOrFill.equals("stroke")) {
@@ -169,8 +149,7 @@ public class DrawingInternalFrame extends JInternalFrame {
             }
         });
         grp.add(button);
-        if (selected)
-            button.setSelected(true);
+//        if (selected)  button.setSelected(true);
 
         return button;
     }

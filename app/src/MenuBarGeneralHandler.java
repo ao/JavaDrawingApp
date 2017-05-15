@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -27,6 +28,8 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
 
             //open a file
             JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", "png", "jpg", "gif", "bmp");
+            fileChooser.setFileFilter(filter);
             if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 String filePath = fileChooser.getSelectedFile().toString();
                 try {
@@ -44,11 +47,14 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
 
                 //save a file
                 JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", "png", "jpg", "gif", "bmp");
+                fileChooser.setFileFilter(filter);
                 if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
                     String filePath = fileChooser.getSelectedFile().toString();
+                    filePath = filePath.replace(".png", "")+".png";
 //                    Files.write(Paths.get(filePath), data);
 
-                    //need to hide the toolbar first before rendering to an image
+                    //TODO: need to hide the toolbar first before rendering to an image
 
                     Graphics2D graphics2D = imagebuf.createGraphics();
                     daInstance.document.getSelectedFrame().getContentPane().paint(graphics2D);
