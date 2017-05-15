@@ -3,10 +3,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DrawPane extends JPanel {
-    private DrawingApp daInstance;
+    private DrawingInternalFrame daInstance;
     private DrawClasses drawClasses;
 
-    public DrawPane(DrawingApp daInstance) {
+    public DrawPane(DrawingInternalFrame daInstance) {
         this.daInstance = daInstance;
         this.drawClasses = new DrawClasses(daInstance);
     }
