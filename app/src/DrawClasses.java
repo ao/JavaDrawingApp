@@ -6,9 +6,9 @@ import java.awt.Rectangle;
 import java.util.List;
 
 public class DrawClasses {
-    private DrawingApp daInstance;
+    private DrawingInternalFrame daInstance;
 
-    public DrawClasses(DrawingApp daInstance) {
+    public DrawClasses(DrawingInternalFrame daInstance) {
         this.daInstance = daInstance;
     }
     public void drawRectangle(Rectangle r, Graphics gr) {
