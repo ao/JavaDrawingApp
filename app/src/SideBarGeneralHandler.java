@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 
 public class SideBarGeneralHandler extends WindowAdapter implements ActionListener {
-    DrawingApp daInstance;
+    DrawingInternalFrame daInstance;
 
-    public void setInstance(DrawingApp daInstance) {
+    public void setInstance(DrawingInternalFrame daInstance) {
         this.daInstance = daInstance;
     }
     public void actionPerformed(ActionEvent e) {
