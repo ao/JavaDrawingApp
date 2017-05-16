@@ -1,39 +1,30 @@
-import javafx.scene.shape.Circle;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.plaf.basic.BasicToolBarUI;
 import java.awt.Color;
 
 public class DrawingApp extends JPanel {
 
     public JFrame mainFrame;
     public JFrame desktopFrame;
-    public DrawPane drawPane;
-
-    public static DrawingApp daInstance;
 
     public List<JDesktopPane> documents;
     public JDesktopPane document;
-
-    public JToolBar toolBar;
 
     public BasicStroke stroke = new BasicStroke(3,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
     public Color fillColour = new Color(255, 0, 0); //red
     public Color strokeColour = new Color(0, 0, 255); //blue
 
     public static void main(String[] args) {
+
         DrawingApp app = new DrawingApp();
-        daInstance = app;
+        Shared.app = app;
+
         app.mainFrame = new JFrame("Java Drawing App");
         app.desktopFrame = new JFrame("Desktop Area");
 
@@ -64,7 +55,7 @@ public class DrawingApp extends JPanel {
     }
 
     public void createFrame() {
-        DrawingInternalFrame frame = new DrawingInternalFrame(this);
+        DrawingInternalFrame frame = new DrawingInternalFrame();
         frame.setVisible(true);
         document.add(frame);
         try {
@@ -83,7 +74,7 @@ public class DrawingApp extends JPanel {
 //        } catch (java.beans.PropertyVetoException e) {}
 //    }
     public void createFrameFromBufferedImage(BufferedImage imageData) {
-        DrawingInternalFrame frame = new DrawingInternalFrame(this, imageData);
+        DrawingInternalFrame frame = new DrawingInternalFrame(imageData);
         frame.setVisible(true);
         document.add(frame);
         try {
@@ -100,41 +91,46 @@ public class DrawingApp extends JPanel {
 
         JMenu mnuFile = new JMenu("File");
             JMenuItem mnuitemNew = new JMenuItem("New", KeyEvent.VK_N);
-            mnuitemNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.ALT_MASK));
-            mnuFile.add(mnuitemNew).addActionListener(new MenuBarGeneralHandler(this));
+            mnuitemNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+            mnuFile.add(mnuitemNew).addActionListener(new MenuBarGeneralHandler());
 
             JMenuItem mnuitemOpen = new JMenuItem("Open", KeyEvent.VK_O);
-            mnuitemOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.ALT_MASK));
-            mnuFile.add(mnuitemOpen).addActionListener(new MenuBarGeneralHandler(this));
+            mnuitemOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+            mnuFile.add(mnuitemOpen).addActionListener(new MenuBarGeneralHandler());
 
             JMenuItem mnuitemSave = new JMenuItem("Save", KeyEvent.VK_S);
-            mnuitemSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
-            mnuFile.add(mnuitemSave).addActionListener(new MenuBarGeneralHandler(this));
+            mnuitemSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+            mnuFile.add(mnuitemSave).addActionListener(new MenuBarGeneralHandler());
 
-            mnuFile.add(new JMenuItem("Exit")).addActionListener(new MenuBarGeneralHandler(this));
+            mnuFile.add(new JMenuItem("Exit")).addActionListener(new MenuBarGeneralHandler());
             menuBar.add(mnuFile);
+
+        JMenu mnuEdit = new JMenu("Edit");
+            JMenuItem mnuitemUndo = new JMenuItem("Undo");
+            mnuEdit.add(mnuitemUndo).addActionListener(new MenuBarGeneralHandler());
+            menuBar.add(mnuEdit);
 
         JMenu mnuSet = new JMenu("Set");
             JMenuItem mnuitemStrokeSize = new JMenuItem("Stroke Size");
-            mnuSet.add(mnuitemStrokeSize).addActionListener(new MenuBarGeneralHandler(this));
+            mnuSet.add(mnuitemStrokeSize).addActionListener(new MenuBarGeneralHandler());
 
             JMenuItem mnuitemStrokeColour = new JMenuItem("Stroke Colour");
-            mnuSet.add(mnuitemStrokeColour).addActionListener(new MenuBarGeneralHandler(this));
+            mnuSet.add(mnuitemStrokeColour).addActionListener(new MenuBarGeneralHandler());
 
             JMenuItem mnuitemFillColour = new JMenuItem("Fill Colour");
-            mnuSet.add(mnuitemFillColour).addActionListener(new MenuBarGeneralHandler(this));
+            mnuSet.add(mnuitemFillColour).addActionListener(new MenuBarGeneralHandler());
             menuBar.add(mnuSet);
 
         JMenu mnuWindows = new JMenu("Windows");
             JMenuItem mnuitemCascade = new JMenuItem("Cascade");
-            mnuWindows.add(mnuitemCascade).addActionListener(new MenuBarGeneralHandler(this));
+            mnuWindows.add(mnuitemCascade).addActionListener(new MenuBarGeneralHandler());
 
             JMenuItem mnuitemTile = new JMenuItem("Tile");
-            mnuWindows.add(mnuitemTile).addActionListener(new MenuBarGeneralHandler(this));
+            mnuWindows.add(mnuitemTile).addActionListener(new MenuBarGeneralHandler());
             menuBar.add(mnuWindows);
 
         JMenu mnuAbout = new JMenu("About");
-            mnuAbout.add(new JMenuItem("About")).addActionListener(new MenuBarGeneralHandler(this));
+            mnuAbout.add(new JMenuItem("About")).addActionListener(new MenuBarGeneralHandler());
             menuBar.add(mnuAbout);
 
         if(null == mainFrame.getMenuBar()) mainFrame.setJMenuBar(menuBar);

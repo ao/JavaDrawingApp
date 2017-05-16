@@ -8,17 +8,15 @@ import java.awt.image.BufferedImage;
 
 public class DrawPane extends JPanel {
     private DrawingInternalFrame difInstance;
-    private DrawingApp daInstance;
     private DrawClasses drawClasses;
 
     public BufferedImage OSC;
 
     public boolean isMouseDown = false;
 
-    public DrawPane(DrawingInternalFrame difInstance, DrawingApp daInstance) {
+    public DrawPane(DrawingInternalFrame difInstance) {
         this.difInstance = difInstance;
-        this.daInstance = daInstance;
-        this.drawClasses = new DrawClasses(difInstance, daInstance);
+        this.drawClasses = new DrawClasses(difInstance);
 
         addMouseListener(new MouseListener() {
             @Override
@@ -34,6 +32,7 @@ public class DrawPane extends JPanel {
 //                        g2.clearRect(e.getX(), e.getY(), 5, 5);
                 }
                 repaint();
+                saveToStack(OSC);
             }
 
             public void mouseReleased(MouseEvent e) {
@@ -78,8 +77,8 @@ public class DrawPane extends JPanel {
                 if (isMouseDown) {
                     if (difInstance.currentShape.equals("FreeDraw")) {
                         Graphics2D g2 = (Graphics2D) difInstance.drawPane.OSC.getGraphics();
-                        g2.setColor(daInstance.strokeColour);
-                        g2.setStroke(daInstance.stroke);
+                        g2.setColor(Shared.app.strokeColour);
+                        g2.setStroke(Shared.app.stroke);
                         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                         g2.drawLine(difInstance.prevX, difInstance.prevY, e.getX(), e.getY());
                         g2.dispose();
@@ -103,7 +102,7 @@ public class DrawPane extends JPanel {
     }
 
     public void makeDrawable() {
-        add(new DrawPane(difInstance, daInstance));
+        add(new DrawPane(difInstance));
     }
 
     public void mouseRepeatCode(MouseEvent e) {
@@ -165,6 +164,30 @@ public class DrawPane extends JPanel {
         }
     }
 
+    public void undo() {
+        if (Shared.undoStack.size() > 0) {
+            setImage(Shared.undoStack.pop());
+        }
+    }
 
+    public void saveToStack(BufferedImage img) {
+        Shared.undoStack.push(copyImage(img));
+    }
+
+    public void setImage(BufferedImage img) {
+//        Graphics g = OSC.getGraphics();
+        Graphics2D graphics = (Graphics2D) img.getGraphics();
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.setPaint(Color.black);
+        OSC = img;
+        repaint();
+    }
+
+    public BufferedImage copyImage(BufferedImage img) {
+        BufferedImage copyOfImage = new BufferedImage(getSize().width, getSize().height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = copyOfImage.createGraphics();
+        g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
+        return copyOfImage;
+    }
 
 }

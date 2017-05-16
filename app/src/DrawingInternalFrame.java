@@ -1,12 +1,8 @@
 import javafx.scene.shape.Circle;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.*;
-import java.io.*;
 import java.util.ArrayList;
-import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicToolBarUI;
 
@@ -24,24 +20,20 @@ public class DrawingInternalFrame extends JInternalFrame {
     public ArrayList<Circle> circleList = new ArrayList<Circle>();
     public java.util.List<Point> freeDrawPath = new ArrayList<>(25);
 
-    public DrawingApp daInstance;
-
     public ImageIcon imageBytes;
     public ImageIcon imageData;
 
     public JToolBar toolBar;
     public JToolBar toolBarInstance;
 
-//    public BasicStroke stroke;
-
-    public DrawingInternalFrame(DrawingApp daInstance) {
+    public DrawingInternalFrame() {
         super("Drawing #" + (++openFrameCount),
                 true, //resizable
                 true, //closable
                 true, //maximizable
                 true); //iconifiable
 
-        subConstructor(daInstance);
+        subConstructor();
     }
 
     //no longer used
@@ -50,17 +42,15 @@ public class DrawingInternalFrame extends JInternalFrame {
 //        subConstructor(daInstance);
 //    }
 
-    public DrawingInternalFrame(DrawingApp daInstance, BufferedImage imageData) {
+    public DrawingInternalFrame(BufferedImage imageData) {
         this.imageData = new ImageIcon(imageData);
-        subConstructor(daInstance);
+        subConstructor();
     }
 
-    public void subConstructor(DrawingApp daInstance) {
-        this.daInstance = daInstance;
-
+    public void subConstructor() {
         x = y = x2 = y2 = 0;
 
-        drawPane = new DrawPane(this, daInstance);
+        drawPane = new DrawPane(this);
 
         setSize(640,480);
 
@@ -102,7 +92,7 @@ public class DrawingInternalFrame extends JInternalFrame {
     }
 
     protected void addToolbarButtons(JToolBar toolBar) {
-        ImageIcon freedrawIcon = new ImageIcon( DrawingInternalFrame.class.getResource("/resources/paintbrush.png") );
+        ImageIcon freedrawIcon = new ImageIcon(DrawingInternalFrame.class.getResource("/resources/paintbrush.png"));
         Action freedrawAction = new AbstractAction("freedraw", freedrawIcon) {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -111,7 +101,7 @@ public class DrawingInternalFrame extends JInternalFrame {
         };
         toolBar.add(freedrawAction);
 
-        ImageIcon eraserIcon = new ImageIcon( DrawingInternalFrame.class.getResource("/resources/eraser.png") );
+        ImageIcon eraserIcon = new ImageIcon(DrawingInternalFrame.class.getResource("/resources/eraser.png"));
         Action eraserAction = new AbstractAction("eraser", eraserIcon) {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -120,7 +110,7 @@ public class DrawingInternalFrame extends JInternalFrame {
         };
         toolBar.add(eraserAction);
 
-        ImageIcon rectangleIcon = new ImageIcon( DrawingInternalFrame.class.getResource("/resources/rectangle.png") );
+        ImageIcon rectangleIcon = new ImageIcon(DrawingInternalFrame.class.getResource("/resources/rectangle.png"));
         Action rectangleAction = new AbstractAction("rectangle", rectangleIcon) {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -129,7 +119,7 @@ public class DrawingInternalFrame extends JInternalFrame {
         };
         toolBar.add(rectangleAction);
 
-        ImageIcon circleIcon = new ImageIcon( DrawingInternalFrame.class.getResource("/resources/circle.png") );
+        ImageIcon circleIcon = new ImageIcon(DrawingInternalFrame.class.getResource("/resources/circle.png"));
         Action circleAction = new AbstractAction("circle", circleIcon) {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -137,48 +127,5 @@ public class DrawingInternalFrame extends JInternalFrame {
             }
         };
         toolBar.add(circleAction);
-
-//        ButtonGroup group = new ButtonGroup();
-//        toolBar.add( makeColourButton("stroke", strokeColour, group, true) );
-//        toolBar.add( makeColourButton("fill", fillColour, group, true) );
     }
-
-//    private JRadioButton makeColourButton(String strokeOrFill, final Color c, ButtonGroup grp, boolean selected) {
-//
-//        final String finalStrokeOrFill = (strokeOrFill==null) ? "stroke" : strokeOrFill;
-//
-//        BufferedImage image = new BufferedImage(20,20,BufferedImage.TYPE_INT_RGB);
-//        Graphics g = image.getGraphics();
-//        g.setColor(Color.LIGHT_GRAY);
-//        g.fillRect(0,0,30,30);
-//        g.setColor(c);
-//        g.fill3DRect(1, 1, 24, 24, true);
-//        g.dispose();
-//        Icon unselectedIcon = new ImageIcon(image);
-//
-//        image = new BufferedImage(20,20,BufferedImage.TYPE_INT_RGB);
-//        g = image.getGraphics();
-//        g.setColor(Color.DARK_GRAY);
-//        g.fillRect(0,0,30,30);
-//        g.setColor(c);
-//        g.fill3DRect(3, 3, 24, 24, false);
-//        g.dispose();
-////        Icon selectedIcon = new ImageIcon(image);
-//
-//        JRadioButton button = new JRadioButton(unselectedIcon);
-////        button.setSelectedIcon(selectedIcon);
-//        button.addActionListener( new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                if (finalStrokeOrFill.equals("stroke")) {
-//                    strokeColour = JColorChooser.showDialog(null, "Choose a stroke color", strokeColour);
-//                } else {
-//                    fillColour = JColorChooser.showDialog(null, "Choose a fill color", fillColour);
-//                }
-//            }
-//        });
-//        grp.add(button);
-////        if (selected)  button.setSelected(true);
-//
-//        return button;
-//    }
 }
