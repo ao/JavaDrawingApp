@@ -79,20 +79,37 @@ public class DrawingApp extends JPanel {
     }
 
     private void addMainMenu() {
-        MenuBar menuBar = new MenuBar();
+        JMenuBar menuBar = new JMenuBar();
 
-        Menu mnuFile = new Menu("File");
-            mnuFile.add(new MenuItem("New")).addActionListener(new MenuBarGeneralHandler(this));
-            mnuFile.add(new MenuItem("Open")).addActionListener(new MenuBarGeneralHandler(this));
-            mnuFile.add(new MenuItem("Save")).addActionListener(new MenuBarGeneralHandler(this));
-            mnuFile.add(new MenuItem("Exit")).addActionListener(new MenuBarGeneralHandler(this));
+        JMenu mnuFile = new JMenu("File");
+            JMenuItem mnuitemNew = new JMenuItem("New", KeyEvent.VK_N);
+            mnuitemNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.ALT_MASK));
+            mnuFile.add(mnuitemNew).addActionListener(new MenuBarGeneralHandler(this));
+
+            JMenuItem mnuitemOpen = new JMenuItem("Open", KeyEvent.VK_O);
+            mnuitemOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.ALT_MASK));
+            mnuFile.add(mnuitemOpen).addActionListener(new MenuBarGeneralHandler(this));
+
+            JMenuItem mnuitemSave = new JMenuItem("Save", KeyEvent.VK_S);
+            mnuitemSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
+            mnuFile.add(mnuitemSave).addActionListener(new MenuBarGeneralHandler(this));
+
+            mnuFile.add(new JMenuItem("Exit")).addActionListener(new MenuBarGeneralHandler(this));
             menuBar.add(mnuFile);
 
-        Menu mnuAbout = new Menu("About");
-            mnuAbout.add(new MenuItem("About")).addActionListener(new MenuBarGeneralHandler(this));
+        JMenu mnuWindows = new JMenu("Windows");
+            JMenuItem mnuitemCascade = new JMenuItem("Cascade");
+            mnuWindows.add(mnuitemCascade).addActionListener(new MenuBarGeneralHandler(this));
+
+            JMenuItem mnuitemTile = new JMenuItem("Tile");
+            mnuWindows.add(mnuitemTile).addActionListener(new MenuBarGeneralHandler(this));
+            menuBar.add(mnuWindows);
+
+        JMenu mnuAbout = new JMenu("About");
+            mnuAbout.add(new JMenuItem("About")).addActionListener(new MenuBarGeneralHandler(this));
             menuBar.add(mnuAbout);
 
-        if(null == mainFrame.getMenuBar()) mainFrame.setMenuBar(menuBar);
+        if(null == mainFrame.getMenuBar()) mainFrame.setJMenuBar(menuBar);
     }
 
 }

@@ -4,6 +4,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyVetoException;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -65,8 +66,63 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
 
         } else if(e.getActionCommand().equals("About")) {
 
-            JOptionPane.showMessageDialog(null, "Java Drawing App", "About", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "<html><h2>Java Drawing App</h2><br/>Created by Andrew Odendaal</html>", "About", JOptionPane.PLAIN_MESSAGE);
 
+        } else if(e.getActionCommand().equals("Cascade")) {
+
+            JInternalFrame ifs[] = daInstance.document.getAllFrames();
+            for (int i = 0; i < ifs.length; i++) {
+                ifs[i].setBounds(
+                        i * 20
+                        , i * 20
+                        , 800
+                        , 600
+                );
+            }
+
+        } else if(e.getActionCommand().equals("Tile")) {
+            // How many frames do we have?
+            JInternalFrame[] allframes = daInstance.document.getAllFrames();
+            int count = allframes.length;
+            if (count == 0) return;
+
+            // Determine the necessary grid size
+            int sqrt = (int)Math.sqrt(count);
+            int rows = sqrt;
+            int cols = sqrt;
+            if (rows * cols < count) {
+                cols++;
+                if (rows * cols < count) {
+                    rows++;
+                }
+            }
+
+            // Define some initial values for size & location.
+            Dimension size = daInstance.document.getSize();
+
+            int w = size.width / cols;
+            int h = size.height / rows;
+            int x = 0;
+            int y = 0;
+
+            // Iterate over the frames, deiconifying any iconified frames and then
+            // relocating & resizing each.
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols && ((i * cols) + j < count); j++) {
+                    JInternalFrame f = allframes[(i * cols) + j];
+
+                    if (!f.isClosed() && f.isIcon()) {
+                        try {
+                            f.setIcon(false);
+                        } catch (PropertyVetoException ignored) {}
+                    }
+
+                    daInstance.document.getDesktopManager().resizeFrame(f, x, y, w, h);
+                    x += w;
+                }
+                y += h; // start the next row
+                x = 0;
+            }
         } else {
 
             //e.getActionCommand()
