@@ -18,15 +18,15 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
         this.daInstance = daInstance;
     }
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals("New")) {
+        if (e.getActionCommand().equals("New")) {
 
             daInstance.createFrame();
 
-        } else if(e.getActionCommand().equals("Exit")) {
+        } else if (e.getActionCommand().equals("Exit")) {
 
             System.exit(0);
 
-        } else if(e.getActionCommand().equals("Open")) {
+        } else if (e.getActionCommand().equals("Open")) {
 
             //open a file
             JFileChooser fileChooser = new JFileChooser();
@@ -41,7 +41,7 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
                 } catch (Exception e1) {}
             }
 
-        } else if(e.getActionCommand().equals("Save")) {
+        } else if (e.getActionCommand().equals("Save")) {
 
             try {
                 byte data[] = daInstance.document.getSelectedFrame().getContentPane().createImage(
@@ -71,11 +71,11 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
 
             } catch (Exception e2) {}
 
-        } else if(e.getActionCommand().equals("About")) {
+        } else if (e.getActionCommand().equals("About")) {
 
             JOptionPane.showMessageDialog(null, "<html><h2>Java Drawing App</h2><br/>Created by Andrew Odendaal</html>", "About", JOptionPane.PLAIN_MESSAGE);
 
-        } else if(e.getActionCommand().equals("Cascade")) {
+        } else if( e.getActionCommand().equals("Cascade")) {
 
             JInternalFrame ifs[] = daInstance.document.getAllFrames();
             for (int i = 0; i < ifs.length; i++) {
@@ -87,14 +87,14 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
                 );
             }
 
-        } else if(e.getActionCommand().equals("Tile")) {
+        } else if (e.getActionCommand().equals("Tile")) {
             // How many frames do we have?
             JInternalFrame[] allframes = daInstance.document.getAllFrames();
             int count = allframes.length;
             if (count == 0) return;
 
             // Determine the necessary grid size
-            int sqrt = (int)Math.sqrt(count);
+            int sqrt = (int) Math.sqrt(count);
             int rows = sqrt;
             int cols = sqrt;
             if (rows * cols < count) {
@@ -121,7 +121,8 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
                     if (!f.isClosed() && f.isIcon()) {
                         try {
                             f.setIcon(false);
-                        } catch (PropertyVetoException ignored) {}
+                        } catch (PropertyVetoException ignored) {
+                        }
                     }
 
                     daInstance.document.getDesktopManager().resizeFrame(f, x, y, w, h);
@@ -130,6 +131,13 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
                 y += h; // start the next row
                 x = 0;
             }
+        } else if (e.getActionCommand().equals("Stroke Size")) {
+            String size = JOptionPane.showInputDialog(null, "Choose a stroke size", daInstance.stroke.getLineWidth());
+            daInstance.stroke = new BasicStroke(Integer.valueOf(size),BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
+        } else if (e.getActionCommand().equals("Stroke Colour")) {
+            daInstance.strokeColour = JColorChooser.showDialog(null, "Choose a stroke color", daInstance.strokeColour);
+        } else if (e.getActionCommand().equals("Fill Colour")) {
+            daInstance.fillColour = JColorChooser.showDialog(null, "Choose a fill color", daInstance.fillColour);
         } else {
 
             //e.getActionCommand()

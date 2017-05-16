@@ -6,9 +6,11 @@ import java.awt.Rectangle;
 import java.util.List;
 
 public class DrawClasses {
-    private DrawingInternalFrame daInstance;
+    private DrawingInternalFrame difInstance;
+    private DrawingApp daInstance;
 
-    public DrawClasses(DrawingInternalFrame daInstance) {
+    public DrawClasses(DrawingInternalFrame difInstance, DrawingApp daInstance) {
+        this.difInstance = difInstance;
         this.daInstance = daInstance;
     }
     public void drawRectangle(Rectangle r, Graphics gr) {
@@ -24,7 +26,7 @@ public class DrawClasses {
 
         g.setStroke(new BasicStroke(3));
         // TODO: FIX THIS STUFF BELOW
-//        g.setColor(daInstance.fillColour);
+//        g.setColor(difInstance.fillColour);
 //        g.fill(r);
         // TODO: FIX THIS STUFF ABOVE
         g.setColor(daInstance.strokeColour);
@@ -41,7 +43,7 @@ public class DrawClasses {
             g = (Graphics2D) gr;
         } else return;
 
-        g.setStroke(new BasicStroke(3));
+        g.setStroke(daInstance.stroke);
         g.setColor(daInstance.strokeColour);
         g.setBackground(daInstance.fillColour);
 

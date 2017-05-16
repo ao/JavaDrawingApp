@@ -24,9 +24,6 @@ public class DrawingInternalFrame extends JInternalFrame {
     public ArrayList<Circle> circleList = new ArrayList<Circle>();
     public java.util.List<Point> freeDrawPath = new ArrayList<>(25);
 
-    public Color fillColour = new Color(255, 0, 0); //red
-    public Color strokeColour = new Color(0, 0, 255); //blue
-
     public DrawingApp daInstance;
 
     public ImageIcon imageBytes;
@@ -35,7 +32,7 @@ public class DrawingInternalFrame extends JInternalFrame {
     public JToolBar toolBar;
     public JToolBar toolBarInstance;
 
-    public BasicStroke stroke;
+//    public BasicStroke stroke;
 
     public DrawingInternalFrame(DrawingApp daInstance) {
         super("Drawing #" + (++openFrameCount),
@@ -63,7 +60,7 @@ public class DrawingInternalFrame extends JInternalFrame {
 
         x = y = x2 = y2 = 0;
 
-        drawPane = new DrawPane(this);
+        drawPane = new DrawPane(this, daInstance);
 
         setSize(640,480);
 
@@ -79,13 +76,12 @@ public class DrawingInternalFrame extends JInternalFrame {
             JLabel jLabel = new JLabel();
             jLabel.setIcon(imageData);
             drawPane.add(jLabel, BorderLayout.CENTER);
+            drawPane.makeDrawable();
         }
 
         addToolbar(this);
 
         this.add(drawPane);
-
-        stroke = new BasicStroke(3,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
     }
 
     public void addToolbar(DrawingInternalFrame dif) {
@@ -115,6 +111,15 @@ public class DrawingInternalFrame extends JInternalFrame {
         };
         toolBar.add(freedrawAction);
 
+        ImageIcon eraserIcon = new ImageIcon( DrawingInternalFrame.class.getResource("/resources/eraser.png") );
+        Action eraserAction = new AbstractAction("eraser", eraserIcon) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentShape = "Eraser";
+            }
+        };
+        toolBar.add(eraserAction);
+
         ImageIcon rectangleIcon = new ImageIcon( DrawingInternalFrame.class.getResource("/resources/rectangle.png") );
         Action rectangleAction = new AbstractAction("rectangle", rectangleIcon) {
             @Override
@@ -133,47 +138,47 @@ public class DrawingInternalFrame extends JInternalFrame {
         };
         toolBar.add(circleAction);
 
-        ButtonGroup group = new ButtonGroup();
-        toolBar.add( makeColourButton("stroke", strokeColour, group, true) );
-        toolBar.add( makeColourButton("fill", fillColour, group, true) );
+//        ButtonGroup group = new ButtonGroup();
+//        toolBar.add( makeColourButton("stroke", strokeColour, group, true) );
+//        toolBar.add( makeColourButton("fill", fillColour, group, true) );
     }
 
-    private JRadioButton makeColourButton(String strokeOrFill, final Color c, ButtonGroup grp, boolean selected) {
-
-        final String finalStrokeOrFill = (strokeOrFill==null) ? "stroke" : strokeOrFill;
-
-        BufferedImage image = new BufferedImage(20,20,BufferedImage.TYPE_INT_RGB);
-        Graphics g = image.getGraphics();
-        g.setColor(Color.LIGHT_GRAY);
-        g.fillRect(0,0,30,30);
-        g.setColor(c);
-        g.fill3DRect(1, 1, 24, 24, true);
-        g.dispose();
-        Icon unselectedIcon = new ImageIcon(image);
-
-        image = new BufferedImage(20,20,BufferedImage.TYPE_INT_RGB);
-        g = image.getGraphics();
-        g.setColor(Color.DARK_GRAY);
-        g.fillRect(0,0,30,30);
-        g.setColor(c);
-        g.fill3DRect(3, 3, 24, 24, false);
-        g.dispose();
-//        Icon selectedIcon = new ImageIcon(image);
-
-        JRadioButton button = new JRadioButton(unselectedIcon);
-//        button.setSelectedIcon(selectedIcon);
-        button.addActionListener( new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (finalStrokeOrFill.equals("stroke")) {
-                    strokeColour = JColorChooser.showDialog(null, "Choose a stroke color", strokeColour);
-                } else {
-                    fillColour = JColorChooser.showDialog(null, "Choose a fill color", fillColour);
-                }
-            }
-        });
-        grp.add(button);
-//        if (selected)  button.setSelected(true);
-
-        return button;
-    }
+//    private JRadioButton makeColourButton(String strokeOrFill, final Color c, ButtonGroup grp, boolean selected) {
+//
+//        final String finalStrokeOrFill = (strokeOrFill==null) ? "stroke" : strokeOrFill;
+//
+//        BufferedImage image = new BufferedImage(20,20,BufferedImage.TYPE_INT_RGB);
+//        Graphics g = image.getGraphics();
+//        g.setColor(Color.LIGHT_GRAY);
+//        g.fillRect(0,0,30,30);
+//        g.setColor(c);
+//        g.fill3DRect(1, 1, 24, 24, true);
+//        g.dispose();
+//        Icon unselectedIcon = new ImageIcon(image);
+//
+//        image = new BufferedImage(20,20,BufferedImage.TYPE_INT_RGB);
+//        g = image.getGraphics();
+//        g.setColor(Color.DARK_GRAY);
+//        g.fillRect(0,0,30,30);
+//        g.setColor(c);
+//        g.fill3DRect(3, 3, 24, 24, false);
+//        g.dispose();
+////        Icon selectedIcon = new ImageIcon(image);
+//
+//        JRadioButton button = new JRadioButton(unselectedIcon);
+////        button.setSelectedIcon(selectedIcon);
+//        button.addActionListener( new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                if (finalStrokeOrFill.equals("stroke")) {
+//                    strokeColour = JColorChooser.showDialog(null, "Choose a stroke color", strokeColour);
+//                } else {
+//                    fillColour = JColorChooser.showDialog(null, "Choose a fill color", fillColour);
+//                }
+//            }
+//        });
+//        grp.add(button);
+////        if (selected)  button.setSelected(true);
+//
+//        return button;
+//    }
 }

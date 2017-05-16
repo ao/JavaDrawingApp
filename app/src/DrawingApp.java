@@ -27,6 +27,10 @@ public class DrawingApp extends JPanel {
 
     public JToolBar toolBar;
 
+    public BasicStroke stroke = new BasicStroke(3,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
+    public Color fillColour = new Color(255, 0, 0); //red
+    public Color strokeColour = new Color(0, 0, 255); //blue
+
     public static void main(String[] args) {
         DrawingApp app = new DrawingApp();
         daInstance = app;
@@ -109,6 +113,17 @@ public class DrawingApp extends JPanel {
 
             mnuFile.add(new JMenuItem("Exit")).addActionListener(new MenuBarGeneralHandler(this));
             menuBar.add(mnuFile);
+
+        JMenu mnuSet = new JMenu("Set");
+            JMenuItem mnuitemStrokeSize = new JMenuItem("Stroke Size");
+            mnuSet.add(mnuitemStrokeSize).addActionListener(new MenuBarGeneralHandler(this));
+
+            JMenuItem mnuitemStrokeColour = new JMenuItem("Stroke Colour");
+            mnuSet.add(mnuitemStrokeColour).addActionListener(new MenuBarGeneralHandler(this));
+
+            JMenuItem mnuitemFillColour = new JMenuItem("Fill Colour");
+            mnuSet.add(mnuitemFillColour).addActionListener(new MenuBarGeneralHandler(this));
+            menuBar.add(mnuSet);
 
         JMenu mnuWindows = new JMenu("Windows");
             JMenuItem mnuitemCascade = new JMenuItem("Cascade");
