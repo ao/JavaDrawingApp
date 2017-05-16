@@ -1,15 +1,14 @@
 import javafx.scene.shape.Circle;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.*;
+import java.io.*;
+import java.util.ArrayList;
+import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicToolBarUI;
-import java.awt.event.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.Color;
 
 public class DrawingInternalFrame extends JInternalFrame {
     static int openFrameCount = 0;
@@ -31,8 +30,10 @@ public class DrawingInternalFrame extends JInternalFrame {
     public DrawingApp daInstance;
 
     public ImageIcon imageBytes;
+    public ImageIcon imageData;
 
     public JToolBar toolBar;
+    public JToolBar toolBarInstance;
 
     public BasicStroke stroke;
 
@@ -46,8 +47,14 @@ public class DrawingInternalFrame extends JInternalFrame {
         subConstructor(daInstance);
     }
 
-    public DrawingInternalFrame(DrawingApp daInstance, byte[] bytes) {
-        imageBytes = new ImageIcon(bytes);
+    //no longer used
+//    public DrawingInternalFrame(DrawingApp daInstance, byte[] bytes) {
+//        imageBytes = new ImageIcon(bytes);
+//        subConstructor(daInstance);
+//    }
+
+    public DrawingInternalFrame(DrawingApp daInstance, BufferedImage imageData) {
+        this.imageData = new ImageIcon(imageData);
         subConstructor(daInstance);
     }
 
@@ -57,9 +64,6 @@ public class DrawingInternalFrame extends JInternalFrame {
         x = y = x2 = y2 = 0;
 
         drawPane = new DrawPane(this);
-        this.add(drawPane);
-
-        addToolbar(this);
 
         setSize(640,480);
 
@@ -71,17 +75,36 @@ public class DrawingInternalFrame extends JInternalFrame {
             drawPane.add( label, BorderLayout.CENTER );
         }
 
+        if (imageData!=null) {
+            JLabel jLabel = new JLabel();
+            jLabel.setIcon(imageData);
+            drawPane.add(jLabel, BorderLayout.CENTER);
+        }
+
+        addToolbar(this);
+
+        this.add(drawPane);
+
         stroke = new BasicStroke(3,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
     }
 
-    public void addToolbar(DrawingInternalFrame mif) {
+    public void addToolbar(DrawingInternalFrame dif) {
         BasicToolBarUI ui = new BasicToolBarUI();
         toolBar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
         toolBar.setUI(ui);
         addToolbarButtons(toolBar);
         toolBar.setFloatable(true);
-        mif.add(toolBar, BorderLayout.PAGE_START);
+        dif.add(toolBar, BorderLayout.PAGE_START);
+        dif.setToolbarInstance(toolBar);
     }
+
+    public void setToolbarInstance(JToolBar tb) {
+        this.toolBarInstance = tb;
+    }
+    public JToolBar getToolBarInstance() {
+        return this.toolBarInstance;
+    }
+
     protected void addToolbarButtons(JToolBar toolBar) {
         ImageIcon freedrawIcon = new ImageIcon( DrawingInternalFrame.class.getResource("/resources/paintbrush.png") );
         Action freedrawAction = new AbstractAction("freedraw", freedrawIcon) {

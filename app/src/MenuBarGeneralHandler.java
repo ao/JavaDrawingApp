@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
 import java.io.File;
+import java.nio.Buffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -34,15 +35,19 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
             if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 String filePath = fileChooser.getSelectedFile().toString();
                 try {
-                    byte data[] = Files.readAllBytes(Paths.get(filePath));
-                    daInstance.createFrameFromBytes(data);
+                    BufferedImage imageData = ImageIO.read(new File(filePath));
+//                    byte data[] = Files.readAllBytes();
+                    daInstance.createFrameFromBufferedImage(imageData);
                 } catch (Exception e1) {}
             }
 
         } else if(e.getActionCommand().equals("Save")) {
 
             try {
-                byte data[] = daInstance.document.getSelectedFrame().getContentPane().createImage(800, 600).toString().getBytes();
+                byte data[] = daInstance.document.getSelectedFrame().getContentPane().createImage(
+                        daInstance.document.getSelectedFrame().getContentPane().getWidth(),
+                        daInstance.document.getSelectedFrame().getContentPane().getHeight())
+                        .toString().getBytes();
 
                 BufferedImage imagebuf = new Robot().createScreenCapture(daInstance.document.getSelectedFrame().getContentPane().bounds());
 
@@ -56,6 +61,8 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
 //                    Files.write(Paths.get(filePath), data);
 
                     //TODO: need to hide the toolbar first before rendering to an image
+//                    daInstance.document.getSelectedFrame().get
+//                    difInstance.getToolBarInstance().hide();
 
                     Graphics2D graphics2D = imagebuf.createGraphics();
                     daInstance.document.getSelectedFrame().getContentPane().paint(graphics2D);

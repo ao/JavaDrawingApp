@@ -2,6 +2,7 @@ import javafx.scene.shape.Circle;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -67,11 +68,23 @@ public class DrawingApp extends JPanel {
         } catch (java.beans.PropertyVetoException e) {}
     }
 
-    public void createFrameFromBytes(byte[] bytes) {
-        System.out.println(bytes.toString());
-        DrawingInternalFrame frame = new DrawingInternalFrame(this, bytes);
+//    public void createFrameFromBytes(byte[] bytes) {
+//        //nolonger use this....
+//        System.out.println(bytes.toString());
+//        DrawingInternalFrame frame = new DrawingInternalFrame(this, bytes);
+//        frame.setVisible(true);
+//        document.add(frame);
+//        try {
+//            frame.setSelected(true);
+//        } catch (java.beans.PropertyVetoException e) {}
+//    }
+    public void createFrameFromBufferedImage(BufferedImage imageData) {
+        DrawingInternalFrame frame = new DrawingInternalFrame(this, imageData);
         frame.setVisible(true);
         document.add(frame);
+        try {
+            frame.setSelected(true);
+        } catch (java.beans.PropertyVetoException e) {}
     }
 
     public DrawingApp() {
