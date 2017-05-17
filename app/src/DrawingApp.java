@@ -1,3 +1,7 @@
+/**
+ * File Description: This is the main entry point of the DA and handles the setup of the main menu.
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -87,46 +91,46 @@ public class DrawingApp extends JPanel {
         JMenu mnuFile = new JMenu("File");
             JMenuItem mnuitemNew = new JMenuItem("New", KeyEvent.VK_N);
             mnuitemNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
-            mnuFile.add(mnuitemNew).addActionListener(new MenuBarGeneralHandler());
+            mnuFile.add(mnuitemNew).addActionListener(new MenuBarHandler());
 
             JMenuItem mnuitemOpen = new JMenuItem("Open", KeyEvent.VK_O);
             mnuitemOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-            mnuFile.add(mnuitemOpen).addActionListener(new MenuBarGeneralHandler());
+            mnuFile.add(mnuitemOpen).addActionListener(new MenuBarHandler());
 
             JMenuItem mnuitemSave = new JMenuItem("Save", KeyEvent.VK_S);
             mnuitemSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-            mnuFile.add(mnuitemSave).addActionListener(new MenuBarGeneralHandler());
+            mnuFile.add(mnuitemSave).addActionListener(new MenuBarHandler());
 
-            mnuFile.add(new JMenuItem("Exit")).addActionListener(new MenuBarGeneralHandler());
+            mnuFile.add(new JMenuItem("Exit")).addActionListener(new MenuBarHandler());
             menuBar.add(mnuFile);
 
         JMenu mnuEdit = new JMenu("Edit");
             JMenuItem mnuitemUndo = new JMenuItem("Undo");
             mnuitemUndo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
-            mnuEdit.add(mnuitemUndo).addActionListener(new MenuBarGeneralHandler());
+            mnuEdit.add(mnuitemUndo).addActionListener(new MenuBarHandler());
             menuBar.add(mnuEdit);
 
         JMenu mnuSet = new JMenu("Set");
             JMenuItem mnuitemStrokeSize = new JMenuItem("Stroke Size");
-            mnuSet.add(mnuitemStrokeSize).addActionListener(new MenuBarGeneralHandler());
+            mnuSet.add(mnuitemStrokeSize).addActionListener(new MenuBarHandler());
 
             JMenuItem mnuitemStrokeColour = new JMenuItem("Stroke Colour");
-            mnuSet.add(mnuitemStrokeColour).addActionListener(new MenuBarGeneralHandler());
+            mnuSet.add(mnuitemStrokeColour).addActionListener(new MenuBarHandler());
 
             JMenuItem mnuitemFillColour = new JMenuItem("Fill Colour");
-            mnuSet.add(mnuitemFillColour).addActionListener(new MenuBarGeneralHandler());
+            mnuSet.add(mnuitemFillColour).addActionListener(new MenuBarHandler());
             menuBar.add(mnuSet);
 
         JMenu mnuWindows = new JMenu("Windows");
             JMenuItem mnuitemCascade = new JMenuItem("Cascade");
-            mnuWindows.add(mnuitemCascade).addActionListener(new MenuBarGeneralHandler());
+            mnuWindows.add(mnuitemCascade).addActionListener(new MenuBarHandler());
 
             JMenuItem mnuitemTile = new JMenuItem("Tile");
-            mnuWindows.add(mnuitemTile).addActionListener(new MenuBarGeneralHandler());
+            mnuWindows.add(mnuitemTile).addActionListener(new MenuBarHandler());
             menuBar.add(mnuWindows);
 
         JMenu mnuAbout = new JMenu("About");
-            mnuAbout.add(new JMenuItem("About")).addActionListener(new MenuBarGeneralHandler());
+            mnuAbout.add(new JMenuItem("About")).addActionListener(new MenuBarHandler());
             menuBar.add(mnuAbout);
 
         if(null == mainFrame.getMenuBar()) mainFrame.setJMenuBar(menuBar);

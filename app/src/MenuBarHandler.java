@@ -1,3 +1,7 @@
+/**
+ * File Description: Contains all the action commands when a menu bar item is triggered.
+ */
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -7,9 +11,9 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
 import java.io.File;
 
-public class MenuBarGeneralHandler extends WindowAdapter implements ActionListener {
+public class MenuBarHandler extends WindowAdapter implements ActionListener {
 
-    public MenuBarGeneralHandler() {}
+    public MenuBarHandler() {}
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("New")) {
 

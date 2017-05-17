@@ -1,8 +1,11 @@
+/**
+ * File Description: Contains the parent code to setup the painting panel, toolbar and toolbar actions
+ */
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.*;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.plaf.basic.BasicToolBarUI;
 
 public class DrawingInternalFrame extends JInternalFrame {

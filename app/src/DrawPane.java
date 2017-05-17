@@ -1,3 +1,7 @@
+/**
+ * File Description: Contains all the canvas/image drawing/painting components and code. The undo internals are also done here.
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;

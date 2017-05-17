@@ -1,3 +1,7 @@
+/**
+ * File Description: Contains the undo history model used by DrawingInternalFrame’s `undoStack` public variable.
+ */
+
 import java.util.Stack;
 
 public class SizedStack<T> extends Stack<T> {
