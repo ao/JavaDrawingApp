@@ -19,6 +19,10 @@ public class DrawingApp extends JPanel {
     public List<JDesktopPane> documents;
     public JDesktopPane document;
 
+    /**
+     * Entry point
+     * @param args
+     */
     public static void main(String[] args) {
 
         try {
@@ -58,6 +62,16 @@ public class DrawingApp extends JPanel {
         app.mainFrame.setExtendedState( app.mainFrame.getExtendedState()|JFrame.MAXIMIZED_BOTH );
     }
 
+    /**
+     * Constructor
+     */
+    public DrawingApp() {
+        super();
+    }
+
+    /**
+     * Create a new drawing frame
+     */
     public void createFrame() {
         DrawingInternalFrame frame = new DrawingInternalFrame();
         frame.setVisible(true);
@@ -77,6 +91,11 @@ public class DrawingApp extends JPanel {
 //            frame.setSelected(true);
 //        } catch (java.beans.PropertyVetoException e) {}
 //    }
+
+    /**
+     * Create a new drawing frame from an image
+     * @param imageData
+     */
     public void createFrameFromBufferedImage(BufferedImage imageData) {
         DrawingInternalFrame frame = new DrawingInternalFrame(imageData, imageData.getWidth(), imageData.getHeight());
         frame.setVisible(true);
@@ -86,10 +105,9 @@ public class DrawingApp extends JPanel {
         } catch (java.beans.PropertyVetoException e) {}
     }
 
-    public DrawingApp() {
-        super();
-    }
-
+    /**
+     * Add the main menu
+     */
     private void addMainMenu() {
         JMenuBar menuBar = new JMenuBar();
 

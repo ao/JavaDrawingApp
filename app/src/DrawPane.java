@@ -18,9 +18,16 @@ public class DrawPane extends JPanel {
 
     public boolean isMouseDown = false;
 
+    /**
+     * Constructor passes in it's parent class to keep an instance so that it can easily refer to it
+     * @param difInstance
+     */
     public DrawPane(DrawingInternalFrame difInstance) {
         this.difInstance = difInstance;
 
+        /**
+         * Mouse handler for all drawing events
+         */
         addMouseListener(new MouseListener() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -106,6 +113,10 @@ public class DrawPane extends JPanel {
             }
             public void mouseExited(MouseEvent e) { }
         });
+
+        /**
+         * Mouse motion handler for all dragging events
+         */
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -139,10 +150,17 @@ public class DrawPane extends JPanel {
         });
     }
 
+    /**
+     * Repaint the canvas when required from parent class
+     */
     public void makeDrawable() {
         repaint();
     }
 
+    /**
+     * The main paint override
+     * @param g
+     */
     @Override
     protected void paintComponent (Graphics g){
         super.paintComponent(g);
@@ -163,7 +181,10 @@ public class DrawPane extends JPanel {
 
     }
 
-    public void checkImage() {  // create or resize OSC if necessary
+    /**
+     * Create or resize the canvas if neccessary
+     */
+    public void checkImage() {
         if (OSC == null) {
             // Create the OSC, with a size to match the size of the panel.
             OSC = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
@@ -182,6 +203,9 @@ public class DrawPane extends JPanel {
         }
     }
 
+    /**
+     * Clear the canvas
+     */
     public void clear() { // clear the drawing area by filling it with white
         if (OSC != null) {
             Graphics g = OSC.getGraphics();
@@ -192,18 +216,28 @@ public class DrawPane extends JPanel {
         }
     }
 
+    /**
+     * Perform the `undo` feature
+     */
     public void undo() {
         if (difInstance.undoStack.size() > 0) {
             setImage(difInstance.undoStack.pop());
         }
     }
 
+    /**
+     * Add a copy of the current canvas/image to the undo stack
+     * @param img
+     */
     public void saveToStack(BufferedImage img) {
         difInstance.undoStack.push(copyImage(img));
     }
 
+    /**
+     * Set the canvas/image to a predefined image
+     * @param img
+     */
     public void setImage(BufferedImage img) {
-//        Graphics g = OSC.getGraphics();
         Graphics2D graphics = (Graphics2D) img.getGraphics();
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graphics.setPaint(Color.black);
@@ -211,6 +245,11 @@ public class DrawPane extends JPanel {
         repaint();
     }
 
+    /**
+     * Make a copy of a predefined image
+     * @param img
+     * @return
+     */
     public BufferedImage copyImage(BufferedImage img) {
         BufferedImage copyOfImage = new BufferedImage(getSize().width, getSize().height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = copyOfImage.createGraphics();

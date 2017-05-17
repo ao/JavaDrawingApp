@@ -13,7 +13,15 @@ import java.io.File;
 
 public class MenuBarHandler extends WindowAdapter implements ActionListener {
 
+    /**
+     * Blank constructor
+     */
     public MenuBarHandler() {}
+
+    /**
+     * Check for any actions that the main menu and sub items may have triggered
+     * @param e
+     */
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("New")) {
 

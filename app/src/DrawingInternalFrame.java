@@ -29,6 +29,9 @@ public class DrawingInternalFrame extends JInternalFrame {
 
     public SizedStack<BufferedImage> undoStack = new SizedStack<>(12);
 
+    /**
+     * Constructor without any method parameters
+     */
     public DrawingInternalFrame() {
         super("Drawing #" + (++openFrameCount),
                 true, //resizable
@@ -39,6 +42,10 @@ public class DrawingInternalFrame extends JInternalFrame {
         subConstructor();
     }
 
+    /**
+     * Constructor with imageData as a parameter
+     * @param imageData
+     */
     public DrawingInternalFrame(BufferedImage imageData) {
         super("Drawing #" + (++openFrameCount),
                 true, //resizable
@@ -50,6 +57,12 @@ public class DrawingInternalFrame extends JInternalFrame {
         subConstructor();
     }
 
+    /**
+     * Constructor with imageData and dimensions as a parameters
+     * @param imageData
+     * @param imageWidth
+     * @param imageHeight
+     */
     public DrawingInternalFrame(BufferedImage imageData, Integer imageWidth, Integer imageHeight) {
         super("Drawing #" + (++openFrameCount),
                 true, //resizable
@@ -63,6 +76,9 @@ public class DrawingInternalFrame extends JInternalFrame {
         subConstructor();
     }
 
+    /**
+     * All overridden constructors call the subConstructor in order to reuse code
+     */
     public void subConstructor() {
         x = y = x2 = y2 = 0;
 
@@ -93,6 +109,10 @@ public class DrawingInternalFrame extends JInternalFrame {
         this.add(drawPane);
     }
 
+    /**
+     * Add the main toolbar
+     * @param dif
+     */
     public void addToolbar(DrawingInternalFrame dif) {
         BasicToolBarUI ui = new BasicToolBarUI();
         toolBar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
@@ -103,13 +123,26 @@ public class DrawingInternalFrame extends JInternalFrame {
         dif.setToolbarInstance(toolBar);
     }
 
+    /**
+     * Set the toolbar to a call variable instance
+     * @param tb
+     */
     public void setToolbarInstance(JToolBar tb) {
         this.toolBarInstance = tb;
     }
+
+    /**
+     * Get the class variable toolbar instance
+     * @return JToolBar
+     */
     public JToolBar getToolBarInstance() {
         return this.toolBarInstance;
     }
 
+    /**
+     * Add the individual toolbar buttons to the main toolbar
+     * @param toolBar
+     */
     protected void addToolbarButtons(JToolBar toolBar) {
         ImageIcon freedrawIcon = new ImageIcon(DrawingInternalFrame.class.getResource("/resources/paintbrush.png"));
         Action freedrawAction = new AbstractAction("freedraw", freedrawIcon) {
