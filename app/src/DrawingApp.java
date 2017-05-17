@@ -22,7 +22,6 @@ public class DrawingApp extends JPanel {
     public static void main(String[] args) {
 
         try {
-            // Set cross-platform Java L&F (also called "Metal")
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         }
         catch (Exception e) {}
