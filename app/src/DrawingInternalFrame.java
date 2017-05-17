@@ -19,7 +19,7 @@ public class DrawingInternalFrame extends JInternalFrame {
     public String currentShape = "FreeDraw";
 
     public ImageIcon imageBytes;
-    public ImageIcon imageData;
+    public BufferedImage imageData;
 
     public Integer imageWidth;
     public Integer imageHeight;
@@ -46,7 +46,7 @@ public class DrawingInternalFrame extends JInternalFrame {
                 true, //maximizable
                 true); //iconifiable
 
-        this.imageData = new ImageIcon(imageData);
+        this.imageData = (BufferedImage) imageData;
         subConstructor();
     }
 
@@ -57,7 +57,7 @@ public class DrawingInternalFrame extends JInternalFrame {
                 true, //maximizable
                 true); //iconifiable
 
-        this.imageData = new ImageIcon(imageData);
+        this.imageData = (BufferedImage) imageData;
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
         subConstructor();
@@ -80,9 +80,11 @@ public class DrawingInternalFrame extends JInternalFrame {
         }
 
         if (imageData!=null) {
-            JLabel jLabel = new JLabel();
-            jLabel.setIcon(imageData);
-            drawPane.add(jLabel, BorderLayout.CENTER);
+//            JLabel jLabel = new JLabel();
+//            jLabel.setIcon(imageData);
+//            drawPane.add(jLabel, BorderLayout.CENTER);
+//            drawPane.makeDrawable();
+            drawPane.imageToPaint = imageData;
             drawPane.makeDrawable();
         }
 

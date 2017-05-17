@@ -14,6 +14,8 @@ public class DrawPane extends JPanel {
 
     public BufferedImage OSC;
 
+    public BufferedImage imageToPaint;
+
     public boolean isMouseDown = false;
 
     public DrawPane(DrawingInternalFrame difInstance) {
@@ -149,8 +151,16 @@ public class DrawPane extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHints(new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON));
 
+        if (imageToPaint!=null) {
+            // we've loaded an image!
+            // let's try NOT override the OSC and rather set it so we don't have 2 separate painting frames
+            OSC = imageToPaint;
+            imageToPaint = null;
+        }
+
         checkImage();
         g2.drawImage(OSC,0,0,null);
+
     }
 
     public void checkImage() {  // create or resize OSC if necessary
