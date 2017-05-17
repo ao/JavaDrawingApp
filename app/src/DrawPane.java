@@ -66,8 +66,6 @@ public class DrawPane extends JPanel {
 
                 repaint();
 
-                System.out.println("fds");
-
                 saveToStack(OSC);
             }
             public void mouseClicked(MouseEvent e) { }
