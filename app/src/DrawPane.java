@@ -86,25 +86,25 @@ public class DrawPane extends JPanel {
 
                 if (difInstance.currentShape.equals("FreeDraw")) {
                     setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
-                        Toolkit.getDefaultToolkit().getImage( getClass().getResource("/resources/paintbrush.png") ),
+                        Toolkit.getDefaultToolkit().getImage( getClass().getResource("/resources/paintbrush_32.png") ),
                         new Point(0,10),
                         "freedraw"
                     ));
                 } else if (difInstance.currentShape.equals("Eraser")) {
                     setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
-                        Toolkit.getDefaultToolkit().getImage( getClass().getResource("/resources/eraser.png") ),
+                        Toolkit.getDefaultToolkit().getImage( getClass().getResource("/resources/eraser_32.png") ),
                         new Point(0,10),
                         "eraser"
                     ));
                 } else if (difInstance.currentShape.equals("Rectangle")) {
                     setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
-                        Toolkit.getDefaultToolkit().getImage( getClass().getResource("/resources/cross.png") ),
+                        Toolkit.getDefaultToolkit().getImage( getClass().getResource("/resources/cross_32.png") ),
                         new Point(0,10),
                         "rectangle"
                     ));
                 } else if (difInstance.currentShape.equals("Circle")) {
                     setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
-                        Toolkit.getDefaultToolkit().getImage( getClass().getResource("/resources/cross.png") ),
+                        Toolkit.getDefaultToolkit().getImage( getClass().getResource("/resources/cross_32.png") ),
                         new Point(0,10),
                         "circle"
                     ));
