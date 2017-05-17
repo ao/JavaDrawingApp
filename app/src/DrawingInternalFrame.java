@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.*;
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.plaf.basic.BasicToolBarUI;
 
 public class DrawingInternalFrame extends JInternalFrame {
@@ -17,6 +18,9 @@ public class DrawingInternalFrame extends JInternalFrame {
     public ImageIcon imageBytes;
     public ImageIcon imageData;
 
+    public Integer imageWidth;
+    public Integer imageHeight;
+
     public JToolBar toolBar;
     public JToolBar toolBarInstance;
 
@@ -30,14 +34,27 @@ public class DrawingInternalFrame extends JInternalFrame {
         subConstructor();
     }
 
-    //no longer used
-//    public DrawingInternalFrame(DrawingApp daInstance, byte[] bytes) {
-//        imageBytes = new ImageIcon(bytes);
-//        subConstructor(daInstance);
-//    }
-
     public DrawingInternalFrame(BufferedImage imageData) {
+        super("Drawing #" + (++openFrameCount),
+                true, //resizable
+                true, //closable
+                true, //maximizable
+                true); //iconifiable
+
         this.imageData = new ImageIcon(imageData);
+        subConstructor();
+    }
+
+    public DrawingInternalFrame(BufferedImage imageData, Integer imageWidth, Integer imageHeight) {
+        super("Drawing #" + (++openFrameCount),
+                true, //resizable
+                true, //closable
+                true, //maximizable
+                true); //iconifiable
+
+        this.imageData = new ImageIcon(imageData);
+        this.imageWidth = imageWidth;
+        this.imageHeight = imageHeight;
         subConstructor();
     }
 
@@ -46,7 +63,8 @@ public class DrawingInternalFrame extends JInternalFrame {
 
         drawPane = new DrawPane(this);
 
-        setSize(640,480);
+        if (imageWidth!=null && imageHeight!=null) setSize(imageWidth,imageHeight);
+        else setSize(640,480);
 
         //Set the window's location.
         setLocation(xOffset*openFrameCount, yOffset*openFrameCount);

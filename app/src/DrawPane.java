@@ -132,15 +132,19 @@ public class DrawPane extends JPanel {
     }
 
     public void makeDrawable() {
-        add(new DrawPane(difInstance));
+        repaint();
     }
 
     @Override
     protected void paintComponent (Graphics g){
         super.paintComponent(g);
 
+        // Let's try get a bit of a better `resolution` by enabling Anti-Aliasing! WE CAN ALWAYS HOPE!
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHints(new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON));
+
         checkImage();
-        g.drawImage(OSC,0,0,null);
+        g2.drawImage(OSC,0,0,null);
     }
 
     public void checkImage() {  // create or resize OSC if necessary

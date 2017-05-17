@@ -69,7 +69,7 @@ public class DrawingApp extends JPanel {
 //        } catch (java.beans.PropertyVetoException e) {}
 //    }
     public void createFrameFromBufferedImage(BufferedImage imageData) {
-        DrawingInternalFrame frame = new DrawingInternalFrame(imageData);
+        DrawingInternalFrame frame = new DrawingInternalFrame(imageData, imageData.getWidth(), imageData.getHeight());
         frame.setVisible(true);
         document.add(frame);
         try {
