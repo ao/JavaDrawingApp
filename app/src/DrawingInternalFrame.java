@@ -24,6 +24,8 @@ public class DrawingInternalFrame extends JInternalFrame {
     public JToolBar toolBar;
     public JToolBar toolBarInstance;
 
+    public SizedStack<BufferedImage> undoStack = new SizedStack<>(12);
+
     public DrawingInternalFrame() {
         super("Drawing #" + (++openFrameCount),
                 true, //resizable

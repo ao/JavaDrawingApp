@@ -52,24 +52,29 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
                     String filePath = fileChooser.getSelectedFile().toString();
                     filePath = filePath.replace(".png", "")+".png";
 
-                    //TODO: need to hide the toolbar first before rendering to an image
-//                    Shared.app.document.getSelectedFrame().get
-//                    difInstance.getToolBarInstance().hide();
+                    // Quickly hide the toolbar otherwise it will be rendered in the output file
+                    // This looks a bit hacky though..
+                    DrawingInternalFrame dif = (DrawingInternalFrame) Shared.app.document.getSelectedFrame().getContentPane().getParent().getParent().getParent();
+                    dif.toolBar.hide();
 
                     Graphics2D graphics2D = imagebuf.createGraphics();
                     Shared.app.document.getSelectedFrame().getContentPane().paint(graphics2D);
                     ImageIO.write(imagebuf,"jpeg", new File(filePath));
+
+                    // Re-show the toolbar after the save is finished
+                    dif.toolBar.show();
                 }
 
             } catch (Exception e2) {}
 
         } else if (e.getActionCommand().equals("Undo")) {
 
-            JOptionPane.showMessageDialog(null, "Still implementing this.. You're welcome to look at the code though!", "Undo", JOptionPane.PLAIN_MESSAGE);
-
-            //TODO: Need to expose this to the Shared class so we can use it here
-//            Shared.app.document.getSelectedFrame().getContentPane()
-//            DrawPane.undo();
+            // We get the DrawingInternalFrame instance first, so that we can call the `undo` method on it's drawPane
+            // This looks a bit hacky though..
+            DrawingInternalFrame dif = (DrawingInternalFrame) Shared.app.document.getSelectedFrame().getContentPane().getParent().getParent().getParent();
+            dif.drawPane.undo();
+            // have to do this twice for now..... (bug?)
+            dif.drawPane.undo();
 
         } else if (e.getActionCommand().equals("About")) {
 

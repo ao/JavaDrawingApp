@@ -65,6 +65,10 @@ public class DrawPane extends JPanel {
                 }
 
                 repaint();
+
+                System.out.println("fds");
+
+                saveToStack(OSC);
             }
             public void mouseClicked(MouseEvent e) { }
             public void mouseEntered(MouseEvent e) {
@@ -177,13 +181,13 @@ public class DrawPane extends JPanel {
     }
 
     public void undo() {
-        if (Shared.undoStack.size() > 0) {
-            setImage(Shared.undoStack.pop());
+        if (difInstance.undoStack.size() > 0) {
+            setImage(difInstance.undoStack.pop());
         }
     }
 
     public void saveToStack(BufferedImage img) {
-        Shared.undoStack.push(copyImage(img));
+        difInstance.undoStack.push(copyImage(img));
     }
 
     public void setImage(BufferedImage img) {

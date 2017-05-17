@@ -102,6 +102,7 @@ public class DrawingApp extends JPanel {
 
         JMenu mnuEdit = new JMenu("Edit");
             JMenuItem mnuitemUndo = new JMenuItem("Undo");
+            mnuitemUndo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
             mnuEdit.add(mnuitemUndo).addActionListener(new MenuBarGeneralHandler());
             menuBar.add(mnuEdit);
 
