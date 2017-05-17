@@ -1,8 +1,6 @@
-import javafx.scene.shape.Circle;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.*;
-import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicToolBarUI;
 
@@ -15,10 +13,6 @@ public class DrawingInternalFrame extends JInternalFrame {
     public int x, y, x2, y2, prevX, prevY;
 
     public String currentShape = "FreeDraw";
-
-    public ArrayList<Rectangle> rectangleList = new ArrayList<Rectangle>();
-    public ArrayList<Circle> circleList = new ArrayList<Circle>();
-    public java.util.List<Point> freeDrawPath = new ArrayList<>(25);
 
     public ImageIcon imageBytes;
     public ImageIcon imageData;

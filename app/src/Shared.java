@@ -7,7 +7,9 @@ public class Shared {
 
     public static DrawingApp app;
 
-    public static Graphics2D graphics;
+    public static BasicStroke stroke = new BasicStroke(3,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
+    public static Color fillColour = new Color(255, 0, 0); //red
+    public static Color strokeColour = new Color(0, 0, 255); //blue
 
 //    public static void undo() {
 //        if (undoStack.size() > 0) {

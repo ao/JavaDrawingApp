@@ -1,4 +1,3 @@
-import javafx.scene.shape.Circle;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -8,7 +7,6 @@ import java.awt.image.BufferedImage;
 
 public class DrawPane extends JPanel {
     private DrawingInternalFrame difInstance;
-    private DrawClasses drawClasses;
 
     public BufferedImage OSC;
 
@@ -16,7 +14,6 @@ public class DrawPane extends JPanel {
 
     public DrawPane(DrawingInternalFrame difInstance) {
         this.difInstance = difInstance;
-        this.drawClasses = new DrawClasses(difInstance);
 
         addMouseListener(new MouseListener() {
             @Override
@@ -29,7 +26,10 @@ public class DrawPane extends JPanel {
                     Graphics2D g2 = (Graphics2D) difInstance.drawPane.OSC.getGraphics();
                     g2.setColor(Color.WHITE);
                     g2.fillRect(e.getX(), e.getY(), 10, 10);
-//                        g2.clearRect(e.getX(), e.getY(), 5, 5);
+                    // we really should use `clearRect` here as it is supposed to be an `eraser` after all
+                    // but the background is white, and `clearRect` makes it black, so it doesn't look so
+                    // good for our purpose here.. maybe later..
+                    // this is what I mean:  `g2.clearRect(e.getX(), e.getY(), 5, 5);`
                 }
                 repaint();
                 saveToStack(OSC);
@@ -37,7 +37,34 @@ public class DrawPane extends JPanel {
 
             public void mouseReleased(MouseEvent e) {
                 isMouseDown = false;
-                mouseRepeatCode(e);
+
+                if (difInstance.currentShape.equals("Rectangle")) {
+                    Graphics2D g2 = (Graphics2D) difInstance.drawPane.OSC.getGraphics();
+
+                    Double _x = (double) difInstance.prevX;
+                    Double _y = (double) difInstance.prevY;
+                    Double _x2 = (double) e.getX()-difInstance.prevX;
+                    Double _y2 = (double) e.getY()-difInstance.prevY;
+
+                    g2.setStroke(Shared.stroke);
+                    g2.setColor(Shared.strokeColour);
+                    g2.drawRect(_x.intValue(), _y.intValue(), _x2.intValue(), _y2.intValue());
+
+                    g2.setColor(Shared.fillColour);
+                    g2.fillRect(_x.intValue(), _y.intValue(), _x2.intValue(), _y2.intValue());
+
+                } else if (difInstance.currentShape.equals("Circle")) {
+                    Graphics2D g2 = (Graphics2D) difInstance.drawPane.OSC.getGraphics();
+
+                    g2.setStroke(Shared.stroke);
+                    g2.setColor(Shared.strokeColour);
+                    g2.drawOval(difInstance.prevX, difInstance.prevY, e.getX()-difInstance.prevX, e.getY()-difInstance.prevY);
+
+                    g2.setColor(Shared.fillColour);
+                    g2.fillOval(difInstance.prevX, difInstance.prevY, e.getX()-difInstance.prevX, e.getY()-difInstance.prevY);
+                }
+
+                repaint();
             }
             public void mouseClicked(MouseEvent e) { }
             public void mouseEntered(MouseEvent e) {
@@ -77,8 +104,8 @@ public class DrawPane extends JPanel {
                 if (isMouseDown) {
                     if (difInstance.currentShape.equals("FreeDraw")) {
                         Graphics2D g2 = (Graphics2D) difInstance.drawPane.OSC.getGraphics();
-                        g2.setColor(Shared.app.strokeColour);
-                        g2.setStroke(Shared.app.stroke);
+                        g2.setColor(Shared.strokeColour);
+                        g2.setStroke(Shared.stroke);
                         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                         g2.drawLine(difInstance.prevX, difInstance.prevY, e.getX(), e.getY());
                         g2.dispose();
@@ -89,7 +116,10 @@ public class DrawPane extends JPanel {
                         Graphics2D g2 = (Graphics2D) difInstance.drawPane.OSC.getGraphics();
                         g2.setColor(Color.WHITE);
                         g2.fillRect(e.getX(), e.getY(), 10, 10);
-//                        g2.clearRect(e.getX(), e.getY(), 5, 5);
+                        // we really should use `clearRect` here as it is supposed to be an `eraser` after all
+                        // but the background is white, and `clearRect` makes it black, so it doesn't look so
+                        // good for our purpose here.. maybe later..
+                        // this is what I mean:  `g2.clearRect(e.getX(), e.getY(), 5, 5);`
                         g2.dispose();
                         repaint();
                     }
@@ -105,34 +135,12 @@ public class DrawPane extends JPanel {
         add(new DrawPane(difInstance));
     }
 
-    public void mouseRepeatCode(MouseEvent e) {
-        if (difInstance.currentShape.equals("Rectangle")) {
-            //draw a rectangle
-            Rectangle r = new Rectangle(difInstance.prevX, difInstance.prevY, e.getX(), e.getY());
-            difInstance.rectangleList.add(r);
-        } else if (difInstance.currentShape.equals("Circle")) {
-            //draw a circle
-            Circle c = new Circle(difInstance.prevX, difInstance.prevY, e.getX()/2);
-            difInstance.circleList.add(c);
-        }
-    }
-
     @Override
     protected void paintComponent (Graphics g){
         super.paintComponent(g);
 
         checkImage();
         g.drawImage(OSC,0,0,null);
-
-        for (Rectangle r : difInstance.rectangleList) {
-            drawClasses.drawRectangle(r,g);
-        }
-
-        for (Circle c : difInstance.circleList) {
-            drawClasses.drawCircle(c,g);
-        }
-
-        drawClasses.drawFreeDraw(difInstance.freeDrawPath,g);
     }
 
     public void checkImage() {  // create or resize OSC if necessary

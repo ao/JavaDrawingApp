@@ -51,7 +51,6 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
                 if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
                     String filePath = fileChooser.getSelectedFile().toString();
                     filePath = filePath.replace(".png", "")+".png";
-//                    Files.write(Paths.get(filePath), data);
 
                     //TODO: need to hide the toolbar first before rendering to an image
 //                    Shared.app.document.getSelectedFrame().get
@@ -67,8 +66,10 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
         } else if (e.getActionCommand().equals("Undo")) {
 
             JOptionPane.showMessageDialog(null, "Still implementing this.. You're welcome to look at the code though!", "Undo", JOptionPane.PLAIN_MESSAGE);
+
+            //TODO: Need to expose this to the Shared class so we can use it here
 //            Shared.app.document.getSelectedFrame().getContentPane()
-//            DrawPane.undo(); //TODO: Need to expose this to the Shared class so we can use it here
+//            DrawPane.undo();
 
         } else if (e.getActionCommand().equals("About")) {
 
@@ -131,12 +132,12 @@ public class MenuBarGeneralHandler extends WindowAdapter implements ActionListen
                 x = 0;
             }
         } else if (e.getActionCommand().equals("Stroke Size")) {
-            String size = JOptionPane.showInputDialog(null, "Choose a stroke size", Shared.app.stroke.getLineWidth());
-            Shared.app.stroke = new BasicStroke(Integer.valueOf(size),BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
+            String size = JOptionPane.showInputDialog(null, "Choose a stroke size", Shared.stroke.getLineWidth());
+            Shared.stroke = new BasicStroke(Integer.valueOf(size),BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
         } else if (e.getActionCommand().equals("Stroke Colour")) {
-            Shared.app.strokeColour = JColorChooser.showDialog(null, "Choose a stroke color", Shared.app.strokeColour);
+            Shared.strokeColour = JColorChooser.showDialog(null, "Choose a stroke color", Shared.strokeColour);
         } else if (e.getActionCommand().equals("Fill Colour")) {
-            Shared.app.fillColour = JColorChooser.showDialog(null, "Choose a fill color", Shared.app.fillColour);
+            Shared.fillColour = JColorChooser.showDialog(null, "Choose a fill color", Shared.fillColour);
         } else {
 
             JOptionPane.showMessageDialog(null, "Unknown Action Command: "+e.getActionCommand().toString(), "404", JOptionPane.PLAIN_MESSAGE);

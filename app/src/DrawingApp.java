@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.Color;
 
 public class DrawingApp extends JPanel {
 
@@ -15,10 +14,6 @@ public class DrawingApp extends JPanel {
 
     public List<JDesktopPane> documents;
     public JDesktopPane document;
-
-    public BasicStroke stroke = new BasicStroke(3,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
-    public Color fillColour = new Color(255, 0, 0); //red
-    public Color strokeColour = new Color(0, 0, 255); //blue
 
     public static void main(String[] args) {
 
